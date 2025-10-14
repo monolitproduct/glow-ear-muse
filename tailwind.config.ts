@@ -22,6 +22,8 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          500: "#6366F1",
+          600: "#4F46E5",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -38,6 +40,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          500: "#06B6D4",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -57,6 +60,18 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "primary-500": "#6366F1",
+        "primary-600": "#4F46E5",
+        "accent-500": "#06B6D4",
+        "bg-dark-start": "#121212",
+        "bg-dark-end": "#1A1A2E",
+        "surface-800": "#1E1E2A",
+        "success-500": "#10B981",
+        "warn-500": "#F59E0B",
+        "danger-500": "#EF4444",
+        "text-primary": "#F5F5F7",
+        "text-secondary": "#B4B4C2",
+        "border-contrast": "#2A2A3C",
       },
       borderRadius: {
         lg: "var(--radius)",
