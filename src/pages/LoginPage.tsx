@@ -1,19 +1,36 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    
     if (!validateEmail(email)) {
-      console.error('Invalid email');
+      setError('Invalid email format');
       return;
     }
-    console.log('Login attempt:', { email, password });
+    
+    setLoading(true);
+    const { error: authError } = await signIn(email, password);
+    setLoading(false);
+    
+    if (authError) {
+      setError(authError.message);
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -50,8 +67,18 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-md transition-colors mt-2">
-            Sign In
+          {error && (
+            <p role="alert" aria-live="polite" className="text-red-500 text-sm text-center">
+              {error}
+            </p>
+          )}
+
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-md transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Logging in...' : 'Sign In'}
           </button>
 
           <p className="mt-6 text-center text-sm text-text-secondary">
