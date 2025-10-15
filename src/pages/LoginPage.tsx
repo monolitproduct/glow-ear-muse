@@ -5,12 +5,23 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      console.error('Invalid email');
+      return;
+    }
+    console.log('Login attempt:', { email, password });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-md w-full bg-surface-800 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-text-primary mb-6">Sign In to EyeHearU</h2>
         
-        <div className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label htmlFor="email" className="block text-sm text-text-secondary mb-2">
               Email
@@ -39,7 +50,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <button className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-md transition-colors mt-2">
+          <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-md transition-colors mt-2">
             Sign In
           </button>
 
@@ -52,7 +63,7 @@ export default function LoginPage() {
               Sign Up
             </Link>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );
