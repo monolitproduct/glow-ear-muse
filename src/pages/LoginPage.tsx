@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-md w-full bg-surface-800 p-8 rounded-lg shadow-lg">
@@ -14,6 +18,8 @@ export default function LoginPage() {
             <input
               id="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-bg-dark-start border border-border-contrast rounded-md p-2 text-text-primary focus:ring-2 focus:ring-primary-500 focus:outline-none"
               placeholder="your@email.com"
             />
@@ -26,6 +32,8 @@ export default function LoginPage() {
             <input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-bg-dark-start border border-border-contrast rounded-md p-2 text-text-primary focus:ring-2 focus:ring-primary-500 focus:outline-none"
               placeholder="••••••••"
             />
