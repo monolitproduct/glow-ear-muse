@@ -6,13 +6,28 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      console.error('Invalid email');
+      return;
+    }
+    if (password !== confirmPassword) {
+      console.error('Passwords do not match');
+      return;
+    }
+    console.log('Register attempt:', { email, password });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-bg-dark-start to-bg-dark-end">
       <div className="max-w-md w-full mx-4">
         <div className="bg-surface-800 p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-text-primary mb-6">Create Your Account</h2>
           
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm text-text-secondary">Email</label>
               <input 
@@ -46,7 +61,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <button className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-4 rounded-md transition-colors mt-6">
+            <button type="submit" className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-4 rounded-md transition-colors mt-6">
               Create Account
             </button>
 
@@ -59,7 +74,7 @@ export default function RegisterPage() {
                 Login
               </Link>
             </p>
-          </div>
+          </form>
         </div>
       </div>
     </div>
