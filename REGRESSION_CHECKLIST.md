@@ -1,18 +1,50 @@
-# EyeHearU Core Functionality Regression Checklist
+# Regression Checklist (Phase 1)
 
-This checklist must be completed on a physical iPhone after every single implementation prompt. Use "Nuke and Pave" builds (rm -rf ios && npx cap add ios && npx cap sync ios) for testing.
+## 1. App Shell & Layout
+- [ ] Root gradient renders from #121212 to #1A1A2E
+- [ ] Root container has `overflow-auto` (not hidden)
+- [ ] Root explicitly sets `z-0`
+- [ ] No unexpected global scroll lock
+- [ ] No stray `overflow-hidden` on structural wrappers
 
-## Phase 1: Foundation & UI
-- [ ] App launches successfully without crashing (verify native compliance like privacy manifests).
-- [ ] Core navigation is functional (e.g., navigating between placeholder pages).
-- [ ] No global scroll prevention bugs (test on a page with long placeholder content).
-- [ ] All UI elements render correctly without visual occlusion (check z-index adherence).
-- [ ] Animations respect prefers-reduced-motion and have good contrast.
+## 2. Routing
+- [ ] Routes resolve: `/` (Dashboard), `/login`, `/transcribe`, `/settings`
+- [ ] All placeholder pages mount under AppShell
+- [ ] 404 handled gracefully (NotFound)
 
-## Phase 2: Core Transcription (Placeholder - Expand Later)
-- [ ] Transcription starts/stops without races.
-- [ ] Text displays with proper solidification animation.
+## 3. Internationalization
+- [ ] `app.title` key exists and shows "EyeHearU"
+- [ ] No missing translation warnings in console
 
-## General A11Y & Perf
-- [ ] WCAG AA contrast on all text/elements.
-- [ ] No flickering or stuttering animations.
+## 4. Motion & A11Y
+- [ ] Page fade-in animation works
+- [ ] `prefers-reduced-motion` disables transforms
+- [ ] Focus rings visible on keyboard navigation
+
+## 5. Visual Layering
+- [ ] z-index values adhere to defined scale
+- [ ] No unintended occlusion (modals, toasts, dropdowns)
+
+## 6. Theming & Contrast
+- [ ] Contrast AA for body text
+- [ ] No hard-coded colors outside tokens (spot check components)
+
+## 7. Forms & Validation
+- [ ] Zod schema validation shows user-friendly messages
+- [ ] No console errors during invalid submission
+
+## 8. Build & Native
+- [ ] Capacitor iOS build succeeds
+- [ ] Info.plist includes microphone & speech usage descriptions
+- [ ] PrivacyInfo.xcprivacy present with empty accessed APIs array
+
+## 9. Performance / Stability
+- [ ] Initial load no unhandled promise rejections
+- [ ] No layout shift after first paint (CLS stable)
+
+## 10. Logging / Warnings
+- [ ] No React StrictMode warnings (if enabled)
+- [ ] No missing key warnings in lists
+
+Run this checklist after each significant merge during Phase 1.
+Version: 1.0.0
