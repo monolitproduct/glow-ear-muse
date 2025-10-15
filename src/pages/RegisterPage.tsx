@@ -1,24 +1,43 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setSuccessMsg(null);
+    
     if (!validateEmail(email)) {
-      console.error('Invalid email');
+      setError('Invalid email format');
       return;
     }
     if (password !== confirmPassword) {
-      console.error('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
-    console.log('Register attempt:', { email, password });
+    
+    setLoading(true);
+    const { error: authError } = await signUp(email, password);
+    setLoading(false);
+    
+    if (authError) {
+      setError(authError.message);
+    } else {
+      setSuccessMsg('Account created! Check your email to confirm.');
+    }
   };
 
   return (
@@ -61,8 +80,24 @@ export default function RegisterPage() {
               />
             </div>
 
-            <button type="submit" className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-4 rounded-md transition-colors mt-6">
-              Create Account
+            {error && (
+              <p role="alert" aria-live="polite" className="text-red-500 text-sm text-center">
+                {error}
+              </p>
+            )}
+
+            {successMsg && (
+              <p role="alert" aria-live="polite" className="text-green-500 text-sm text-center">
+                {successMsg}
+              </p>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-4 rounded-md transition-colors mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
 
             <p className="mt-6 text-center text-sm text-text-secondary">
