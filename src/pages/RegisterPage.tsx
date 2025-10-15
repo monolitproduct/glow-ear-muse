@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function RegisterPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-bg-dark-start to-bg-dark-end">
@@ -37,11 +39,14 @@ export default function RegisterPage() {
               Create Account
             </button>
 
-            <p className="text-sm text-text-secondary text-center mt-4">
+            <p className="mt-6 text-center text-sm text-text-secondary">
               Already have an account?{' '}
-              <a href="/login" className="text-accent-500 hover:underline">
-                Sign In
-              </a>
+              <Link 
+                to="/login" 
+                className="text-accent-primary hover:text-accent-primary/80 font-medium transition-colors"
+              >
+                Login
+              </Link>
             </p>
           </div>
         </div>
