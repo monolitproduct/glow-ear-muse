@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const TranscriptionPage = () => {
@@ -11,13 +12,22 @@ const TranscriptionPage = () => {
         <p className="text-sm">
           User: <span className="font-semibold">{user?.email}</span>
         </p>
-        <button
-          onClick={signOut}
-          className="text-sm text-accent-primary hover:underline"
-          aria-label="Sign out"
-        >
-          Sign Out
-        </button>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/dashboard"
+            className="text-sm text-accent-primary hover:underline"
+            aria-label="Back to dashboard"
+          >
+            Dashboard
+          </Link>
+          <button
+            onClick={signOut}
+            className="text-sm text-accent-primary hover:underline"
+            aria-label="Sign out"
+          >
+            Sign Out
+          </button>
+        </div>
       </header>
 
       {/* Transcription Display Area */}
