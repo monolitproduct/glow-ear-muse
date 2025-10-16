@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const DashboardPage = () => {
@@ -13,6 +14,12 @@ const DashboardPage = () => {
         <p className="text-text-secondary mb-6">
           Logged in as: {user ? user.email : 'Loading user...'}
         </p>
+        <Link
+          to="/transcribe"
+          className="w-full px-4 py-2 my-4 bg-accent-500 text-white font-semibold rounded-lg hover:bg-accent-500/80 transition-colors block text-center"
+        >
+          Start New Transcription
+        </Link>
         <button
           onClick={signOut}
           className="w-full px-4 py-2 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/80 transition-colors"
