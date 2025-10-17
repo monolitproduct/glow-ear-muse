@@ -7,6 +7,8 @@ const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
   const shouldReduceMotion = useReducedMotion();
   const [isRecording, setIsRecording] = useState(false);
+  const [interimTranscript, setInterimTranscript] = useState('');
+  const [finalTranscript, setFinalTranscript] = useState('');
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -44,9 +46,10 @@ const TranscriptionPage = () => {
       </header>
 
       {/* Transcription Display Area */}
-      <main className="flex-grow flex items-center justify-center">
-        <p className="text-text-secondary text-lg text-center px-4">
-          Press the button to start transcribing...
+      <main className="flex-grow flex items-center justify-center p-4">
+        <p className="text-3xl text-text-primary text-center">
+          {finalTranscript}
+          <span className="text-text-secondary opacity-75">{interimTranscript}</span>
         </p>
       </main>
 
