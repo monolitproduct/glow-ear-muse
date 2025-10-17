@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
   const shouldReduceMotion = useReducedMotion();
+  const [isRecording, setIsRecording] = useState(false);
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -54,7 +55,8 @@ const TranscriptionPage = () => {
         <motion.button
           className="w-20 h-20 bg-accent-primary rounded-full text-white font-bold text-lg shadow-lg hover:bg-accent-primary/90 transition-colors"
           aria-label="Start recording"
-          animate={shouldReduceMotion ? {} : breathingAnimation}
+          onClick={() => setIsRecording(prev => !prev)}
+          animate={isRecording && !shouldReduceMotion ? breathingAnimation : {}}
           whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
           transition={{
             default: {
@@ -75,7 +77,7 @@ const TranscriptionPage = () => {
             whileTap: { type: 'spring', stiffness: 400, damping: 17 }
           }}
         >
-          Start
+          {isRecording ? 'Stop' : 'Start'}
         </motion.button>
       </footer>
     </div>
