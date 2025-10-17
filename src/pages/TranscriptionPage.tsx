@@ -7,6 +7,16 @@ const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
   const shouldReduceMotion = useReducedMotion();
 
+  const breathingAnimation = {
+    scale: [1, 1.05, 1],
+    boxShadow: [
+      "0 0 0 0px rgba(99, 102, 241, 0.4)",
+      "0 0 0 10px rgba(99, 102, 241, 0)",
+      "0 0 0 0px rgba(99, 102, 241, 0.4)"
+    ],
+    opacity: [0.8, 1, 0.8]
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background text-text-primary p-4">
       {/* Header Area */}
@@ -44,8 +54,26 @@ const TranscriptionPage = () => {
         <motion.button
           className="w-20 h-20 bg-accent-primary rounded-full text-white font-bold text-lg shadow-lg hover:bg-accent-primary/90 transition-colors"
           aria-label="Start recording"
+          animate={shouldReduceMotion ? {} : breathingAnimation}
           whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-          transition={{ duration: 0.1 }}
+          transition={{
+            default: {
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            },
+            boxShadow: {
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeOut"
+            },
+            opacity: {
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            },
+            whileTap: { type: 'spring', stiffness: 400, damping: 17 }
+          }}
         >
           Start
         </motion.button>
