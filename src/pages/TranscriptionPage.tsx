@@ -24,28 +24,30 @@ const TranscriptionPage = () => {
   };
 
   useEffect(() => {
-    // Add the listener for partial results (interim text)
     let listenerHandle: any;
-    
-    const setupListener = async () => {
-      listenerHandle = await SpeechRecognition.addListener('partialResults', (data: any) => {
-        if (data.matches && data.matches.length > 0) {
-          const newText = data.matches[0];
-          interimTranscriptRef.current = newText; // Synchronous update
-          setInterimTranscript(newText); // Async UI update
-        }
-      });
-    };
 
-    setupListener();
+    if (isRecording) {
+      // Add the listener for partial results (interim text)
+      const setupListener = async () => {
+        listenerHandle = await SpeechRecognition.addListener('partialResults', (data: any) => {
+          if (data.matches && data.matches.length > 0) {
+            const newText = data.matches[0];
+            interimTranscriptRef.current = newText; // Synchronous update
+            setInterimTranscript(newText); // Async UI update
+          }
+        });
+      };
 
-    // Cleanup function to remove the listener when the component unmounts
+      setupListener();
+    }
+
+    // Cleanup function to remove the listener when isRecording changes to false
     return () => {
       if (listenerHandle) {
         listenerHandle.remove();
       }
     };
-  }, []); // Empty dependency array ensures this runs only once
+  }, [isRecording]); // Listener now dependent on isRecording state
 
   const toggleRecording = async () => {
     setError(''); // Clear any previous errors
