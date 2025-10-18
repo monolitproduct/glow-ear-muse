@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import TranscriptionPage from "./pages/TranscriptionPage";
 import HistoryPage from "./pages/HistoryPage";
+import TranscriptDetailPage from './pages/TranscriptDetailPage';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <HistoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transcript/:id"
+              element={
+                <ProtectedRoute>
+                  <TranscriptDetailPage />
                 </ProtectedRoute>
               }
             />
