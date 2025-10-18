@@ -12,6 +12,7 @@ import DashboardPage from "./pages/DashboardPage";
 import TranscriptionPage from "./pages/TranscriptionPage";
 import HistoryPage from "./pages/HistoryPage";
 import TranscriptDetailPage from './pages/TranscriptDetailPage';
+import PurchasePage from './pages/PurchasePage';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <TranscriptDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/purchase"
+              element={
+                <ProtectedRoute>
+                  <PurchasePage />
                 </ProtectedRoute>
               }
             />
