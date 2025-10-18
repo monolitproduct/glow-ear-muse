@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+import LanguageSelector from '../components/LanguageSelector';
 
 const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
@@ -11,6 +12,7 @@ const TranscriptionPage = () => {
   const [interimTranscript, setInterimTranscript] = useState('');
   const [finalTranscript, setFinalTranscript] = useState('');
   const [error, setError] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('en-US');
   const interimTranscriptRef = useRef('');
 
   const breathingAnimation = {
@@ -81,7 +83,7 @@ const TranscriptionPage = () => {
         if (speechRecognition === 'granted') {
           // Start listening
           await SpeechRecognition.start({
-            language: 'en-US', // We will make this dynamic later
+            language: selectedLanguage,
             partialResults: true, // Required for interim results
           });
           setIsRecording(true);
@@ -129,7 +131,13 @@ const TranscriptionPage = () => {
       </main>
 
       {/* Action Button Area */}
-      <footer className="flex flex-col justify-center items-center py-4">
+      <footer className="flex flex-col justify-center items-center py-4 px-4">
+        <div className="w-full max-w-xs mb-4">
+          <LanguageSelector
+            selectedLanguage={selectedLanguage}
+            onChange={setSelectedLanguage}
+          />
+        </div>
         {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
         <motion.button
           className="w-20 h-20 bg-accent-primary rounded-full text-white font-bold text-lg shadow-lg hover:bg-accent-primary/90 transition-colors"
