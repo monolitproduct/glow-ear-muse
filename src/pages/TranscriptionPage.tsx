@@ -97,6 +97,13 @@ const TranscriptionPage = () => {
     }
   };
 
+  const canSave = !isRecording && finalTranscript.trim().length > 0;
+
+  const handleSave = () => {
+    console.log('Transcript Saved:', finalTranscript);
+    setFinalTranscript('');
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background text-text-primary p-4">
       {/* Header Area */}
@@ -139,33 +146,51 @@ const TranscriptionPage = () => {
           />
         </div>
         {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
-        <motion.button
-          className="w-20 h-20 bg-accent-primary rounded-full text-white font-bold text-lg shadow-lg hover:bg-accent-primary/90 transition-colors"
-          aria-label="Start recording"
-          onClick={toggleRecording}
-          animate={isRecording && !shouldReduceMotion ? breathingAnimation : {}}
-          whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-          transition={{
-            default: {
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            },
-            boxShadow: {
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeOut"
-            },
-            opacity: {
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            },
-            whileTap: { type: 'spring', stiffness: 400, damping: 17 }
-          }}
-        >
-          {isRecording ? 'Stop' : 'Start'}
-        </motion.button>
+        <div className="flex w-full max-w-xs justify-center items-center gap-4">
+          {/* Save Button */}
+          <button
+            onClick={handleSave}
+            disabled={!canSave}
+            className="w-20 h-20 bg-accent-secondary rounded-full text-white font-bold text-lg shadow-lg transition-all
+                       disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Save transcript"
+          >
+            Save
+          </button>
+
+          {/* Start/Stop Button */}
+          <motion.button
+            onClick={toggleRecording}
+            animate={isRecording && !shouldReduceMotion ? breathingAnimation : {}}
+            whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
+            transition={{
+              default: {
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              },
+              boxShadow: {
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeOut"
+              },
+              opacity: {
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              },
+              whileTap: { type: 'spring', stiffness: 400, damping: 17 }
+            }}
+            aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+            className={`w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg transition-colors ${
+              isRecording
+                ? 'bg-accent-error hover:bg-accent-error/90'
+                : 'bg-accent-primary hover:bg-accent-primary/90'
+            }`}
+          >
+            {isRecording ? 'Stop' : 'Start'}
+          </motion.button>
+        </div>
       </footer>
     </div>
   );
