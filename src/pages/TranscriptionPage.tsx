@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
+import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 
 const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
@@ -9,6 +10,7 @@ const TranscriptionPage = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
   const [finalTranscript, setFinalTranscript] = useState('');
+  const [error, setError] = useState('');
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -18,6 +20,41 @@ const TranscriptionPage = () => {
       "0 0 0 0px rgba(99, 102, 241, 0.4)"
     ],
     opacity: [0.8, 1, 0.8]
+  };
+
+  const toggleRecording = async () => {
+    setError(''); // Clear any previous errors
+
+    if (isRecording) {
+      // Stop the recognition
+      try {
+        await SpeechRecognition.stop();
+      } catch (e) {
+        console.error("Error stopping recognition", e);
+        setError("Error stopping recognition.");
+      }
+      setIsRecording(false);
+    } else {
+      // Start the recognition
+      try {
+        // First, check and request permissions
+        const { speechRecognition } = await SpeechRecognition.requestPermissions();
+
+        if (speechRecognition === 'granted') {
+          // Start listening
+          await SpeechRecognition.start({
+            language: 'en-US', // We will make this dynamic later
+            partialResults: true, // Required for interim results
+          });
+          setIsRecording(true);
+        } else {
+          setError('Speech recognition permission was denied.');
+        }
+      } catch (e) {
+        console.error("Error starting recognition", e);
+        setError('Could not start speech recognition.');
+      }
+    }
   };
 
   return (
@@ -54,11 +91,12 @@ const TranscriptionPage = () => {
       </main>
 
       {/* Action Button Area */}
-      <footer className="flex justify-center items-center py-4">
+      <footer className="flex flex-col justify-center items-center py-4">
+        {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
         <motion.button
           className="w-20 h-20 bg-accent-primary rounded-full text-white font-bold text-lg shadow-lg hover:bg-accent-primary/90 transition-colors"
           aria-label="Start recording"
-          onClick={() => setIsRecording(prev => !prev)}
+          onClick={toggleRecording}
           animate={isRecording && !shouldReduceMotion ? breathingAnimation : {}}
           whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
           transition={{
