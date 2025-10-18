@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import LanguageSelector from '../components/LanguageSelector';
+import { supabase } from '../integrations/supabase/client';
 
 const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
@@ -99,9 +100,28 @@ const TranscriptionPage = () => {
 
   const canSave = !isRecording && finalTranscript.trim().length > 0;
 
-  const handleSave = () => {
-    console.log('Transcript Saved:', finalTranscript);
-    setFinalTranscript('');
+  const handleSave = async () => {
+    if (!user) {
+      console.error('User not logged in. Cannot save.');
+      return;
+    }
+
+    // The 'canSave' constant already ensures finalTranscript is not empty.
+    // The 'selectedLanguage' state is already available in the component.
+
+    const { error } = await supabase.from('transcripts').insert({
+      user_id: user.id,
+      content: finalTranscript,
+      language: selectedLanguage
+    });
+
+    if (error) {
+      console.error('Error saving transcript:', error.message);
+    } else {
+      console.log('Transcript Saved!');
+      // Clear the transcript on successful save
+      setFinalTranscript('');
+    }
   };
 
   return (
