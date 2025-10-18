@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -22,6 +22,28 @@ const TranscriptionPage = () => {
     opacity: [0.8, 1, 0.8]
   };
 
+  useEffect(() => {
+    // Add the listener for partial results (interim text)
+    let listenerHandle: any;
+    
+    const setupListener = async () => {
+      listenerHandle = await SpeechRecognition.addListener('partialResults', (data: any) => {
+        if (data.matches && data.matches.length > 0) {
+          setInterimTranscript(data.matches[0]);
+        }
+      });
+    };
+
+    setupListener();
+
+    // Cleanup function to remove the listener when the component unmounts
+    return () => {
+      if (listenerHandle) {
+        listenerHandle.remove();
+      }
+    };
+  }, []); // Empty dependency array ensures this runs only once
+
   const toggleRecording = async () => {
     setError(''); // Clear any previous errors
 
@@ -29,6 +51,12 @@ const TranscriptionPage = () => {
       // Stop the recognition
       try {
         await SpeechRecognition.stop();
+
+        // Move the interim text to final transcript if there is any
+        if (interimTranscript.trim()) {
+          setFinalTranscript(prev => (prev.trim() + ' ' + interimTranscript.trim()).trim());
+        }
+        setInterimTranscript(''); // Clear the interim text
       } catch (e) {
         console.error("Error stopping recognition", e);
         setError("Error stopping recognition.");
