@@ -14,12 +14,25 @@ const DashboardPage = () => {
         <p className="text-text-secondary mb-6">
           Logged in as: {user ? user.email : 'Loading user...'}
         </p>
-        <Link
-          to="/transcribe"
-          className="w-full px-4 py-2 my-4 bg-accent-500 text-white font-semibold rounded-lg hover:bg-accent-500/80 transition-colors block text-center"
-        >
-          Start New Transcription
-        </Link>
+        
+        <div className="flex flex-col gap-4 w-full mt-6">
+          <Link
+            to="/transcribe"
+            className="w-full px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/90 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+            aria-label="Go to transcription page"
+          >
+            Start New Transcription
+          </Link>
+          
+          <Link
+            to="/history"
+            className="w-full px-6 py-3 bg-background/50 border-2 border-accent-primary text-accent-primary font-semibold rounded-lg hover:bg-accent-primary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+            aria-label="View saved transcripts"
+          >
+            View Saved Transcripts
+          </Link>
+        </div>
+        
         <button
           onClick={signOut}
           className="w-full px-4 py-2 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/80 transition-colors"
