@@ -59,16 +59,19 @@ const HistoryPage = () => {
         ) : (
           <ul className="space-y-4">
             {transcripts.map((transcript) => (
-              <li
-                key={transcript.id}
-                className="bg-background-secondary p-4 rounded-lg shadow transition-opacity hover:opacity-80"
-              >
-                <p className="text-text-primary text-sm line-clamp-3">
-                  {transcript.content}
-                </p>
-                <p className="text-text-secondary text-xs mt-2">
-                  {new Date(transcript.created_at).toLocaleString()} - ({transcript.language})
-                </p>
+              <li key={transcript.id}>
+                <Link
+                  to={`/transcript/${transcript.id}`}
+                  className="block bg-background-secondary p-4 rounded-lg shadow transition-opacity hover:opacity-80 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-primary"
+                  aria-label={`View full transcript from ${new Date(transcript.created_at).toLocaleString()}`}
+                >
+                  <p className="text-text-primary text-sm line-clamp-3">
+                    {transcript.content}
+                  </p>
+                  <p className="text-text-secondary text-xs mt-2">
+                    {new Date(transcript.created_at).toLocaleString()} - ({transcript.language})
+                  </p>
+                </Link>
               </li>
             ))}
           </ul>
