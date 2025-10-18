@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
@@ -11,6 +11,7 @@ const TranscriptionPage = () => {
   const [interimTranscript, setInterimTranscript] = useState('');
   const [finalTranscript, setFinalTranscript] = useState('');
   const [error, setError] = useState('');
+  const interimTranscriptRef = useRef('');
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -29,7 +30,9 @@ const TranscriptionPage = () => {
     const setupListener = async () => {
       listenerHandle = await SpeechRecognition.addListener('partialResults', (data: any) => {
         if (data.matches && data.matches.length > 0) {
-          setInterimTranscript(data.matches[0]);
+          const newText = data.matches[0];
+          interimTranscriptRef.current = newText; // Synchronous update
+          setInterimTranscript(newText); // Async UI update
         }
       });
     };
@@ -52,11 +55,16 @@ const TranscriptionPage = () => {
       try {
         await SpeechRecognition.stop();
 
-        // Move the interim text to final transcript if there is any
-        if (interimTranscript.trim()) {
-          setFinalTranscript(prev => (prev.trim() + ' ' + interimTranscript.trim()).trim());
+        // Read from the ref to get the *guaranteed* latest value
+        const textToSave = interimTranscriptRef.current;
+
+        if (textToSave.trim()) {
+          setFinalTranscript(prev => (prev.trim() + ' ' + textToSave.trim()).trim());
         }
-        setInterimTranscript(''); // Clear the interim text
+
+        // Clear both the ref and the state
+        interimTranscriptRef.current = '';
+        setInterimTranscript('');
       } catch (e) {
         console.error("Error stopping recognition", e);
         setError("Error stopping recognition.");
