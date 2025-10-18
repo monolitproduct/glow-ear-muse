@@ -133,6 +133,13 @@ const TranscriptionPage = () => {
         </p>
         <div className="flex items-center gap-4">
           <Link
+            to="/purchase"
+            className="text-sm px-3 py-1 bg-accent-primary text-white font-semibold rounded hover:bg-accent-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+            aria-label="Upgrade to unlimited transcription"
+          >
+            Upgrade
+          </Link>
+          <Link
             to="/dashboard"
             className="text-sm text-accent-primary hover:underline"
             aria-label="Back to dashboard"
