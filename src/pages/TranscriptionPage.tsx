@@ -14,6 +14,7 @@ const TranscriptionPage = () => {
   const [finalTranscript, setFinalTranscript] = useState('');
   const [error, setError] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('en-US');
+  const [isFlipped, setIsFlipped] = useState(false);
   const interimTranscriptRef = useRef('');
 
   const breathingAnimation = {
@@ -132,6 +133,13 @@ const TranscriptionPage = () => {
           User: <span className="font-semibold">{user?.email}</span>
         </p>
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsFlipped(prev => !prev)}
+            className="text-sm text-accent-secondary hover:underline"
+            aria-label={isFlipped ? "Unflip screen" : "Flip screen"}
+          >
+            {isFlipped ? 'Unflip' : 'Flip'}
+          </button>
           <Link
             to="/purchase"
             className="text-sm px-3 py-1 bg-accent-primary text-white font-semibold rounded hover:bg-accent-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
