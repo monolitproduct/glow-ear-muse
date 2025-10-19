@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Purchases, PurchasesOffering } from '@revenuecat/purchases-capacitor';
 import { Capacitor } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 const PurchasePage = () => {
   const [offering, setOffering] = useState<PurchasesOffering | null>(null);
@@ -54,10 +55,17 @@ const PurchasePage = () => {
       // We will add logic here later to check entitlements and redirect
       alert('Purchase Successful! Thank you for your support.');
 
+      // Haptic double-tap for success (simulate with two medium impacts)
+      await Haptics.impact({ style: ImpactStyle.Medium });
+      await Haptics.impact({ style: ImpactStyle.Medium });
+
     } catch (e: any) {
       if (!e.userCancelled) {
         console.error('Purchase error:', e);
         setError(e.message || 'An error occurred during purchase.');
+
+        // Haptic soft buzz for error
+        await Haptics.vibrate();
       } else {
         console.log('User cancelled purchase.');
       }
