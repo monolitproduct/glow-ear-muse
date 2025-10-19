@@ -15,7 +15,8 @@ const initializeRevenueCat = async () => {
     try {
       // Configure RevenueCat SDK
       await Purchases.configure({ 
-        apiKey: REVENUECAT_API_KEY 
+        apiKey: REVENUECAT_API_KEY,
+        appUserID: undefined // v8+ requirement: undefined for anonymous users
       });
       
       console.log('✅ RevenueCat SDK initialized successfully');
