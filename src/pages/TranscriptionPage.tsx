@@ -5,6 +5,8 @@ import { useAuth } from '../hooks/useAuth';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import LanguageSelector from '../components/LanguageSelector';
 import { supabase } from '../integrations/supabase/client';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
 
 const TranscriptionPage = () => {
   const { user, signOut } = useAuth();
@@ -71,11 +73,22 @@ const TranscriptionPage = () => {
         // Clear both the ref and the state
         interimTranscriptRef.current = '';
         setInterimTranscript('');
+        setIsRecording(false);
+
+        // Haptic feedback on stop success
+        if (Capacitor.getPlatform() === 'ios') {
+          await Haptics.impact({ style: ImpactStyle.Medium }); // Simulate "Sharp tap"
+        }
       } catch (e) {
         console.error("Error stopping recognition", e);
         setError("Error stopping recognition.");
+        setIsRecording(false);
+
+        // Haptic feedback on error
+        if (Capacitor.getPlatform() === 'ios') {
+          await Haptics.notification({ type: NotificationType.Error }); // Simulate "Soft buzz"
+        }
       }
-      setIsRecording(false);
     } else {
       // Start the recognition
       try {
@@ -89,12 +102,27 @@ const TranscriptionPage = () => {
             partialResults: true, // Required for interim results
           });
           setIsRecording(true);
+
+          // Haptic feedback on start success
+          if (Capacitor.getPlatform() === 'ios') {
+            await Haptics.impact({ style: ImpactStyle.Medium }); // Simulate "Sharp tap"
+          }
         } else {
           setError('Speech recognition permission was denied.');
+
+          // Haptic feedback on permission denied
+          if (Capacitor.getPlatform() === 'ios') {
+            await Haptics.notification({ type: NotificationType.Error }); // Simulate "Soft buzz"
+          }
         }
       } catch (e) {
         console.error("Error starting recognition", e);
         setError('Could not start speech recognition.');
+
+        // Haptic feedback on error
+        if (Capacitor.getPlatform() === 'ios') {
+          await Haptics.notification({ type: NotificationType.Error }); // Simulate "Soft buzz"
+        }
       }
     }
   };
@@ -118,10 +146,22 @@ const TranscriptionPage = () => {
 
     if (error) {
       console.error('Error saving transcript:', error.message);
+
+      // Haptic feedback on save error
+      if (Capacitor.getPlatform() === 'ios') {
+        await Haptics.notification({ type: NotificationType.Error }); // Simulate "Soft buzz"
+      }
     } else {
       console.log('Transcript Saved!');
       // Clear the transcript on successful save
       setFinalTranscript('');
+
+      // Haptic feedback on save success - simulate "Double-tap"
+      if (Capacitor.getPlatform() === 'ios') {
+        await Haptics.impact({ style: ImpactStyle.Heavy });
+        await new Promise(resolve => setTimeout(resolve, 50)); // Short delay
+        await Haptics.impact({ style: ImpactStyle.Heavy });
+      }
     }
   };
 
