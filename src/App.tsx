@@ -13,6 +13,7 @@ import TranscriptionPage from "./pages/TranscriptionPage";
 import HistoryPage from "./pages/HistoryPage";
 import TranscriptDetailPage from './pages/TranscriptDetailPage';
 import PurchasePage from './pages/PurchasePage';
+import SettingsPage from './pages/SettingsPage';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -65,6 +66,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <PurchasePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
                 </ProtectedRoute>
               }
             />
