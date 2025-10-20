@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const SettingsPage = () => {
+  const HAPTICS_STORAGE_KEY = 'eyeHearU_hapticsEnabled';
+
+  // Initialize state from localStorage or default to true
+  const [hapticsEnabled, setHapticsEnabled] = useState(() => {
+    const savedValue = localStorage.getItem(HAPTICS_STORAGE_KEY);
+    return savedValue !== null ? JSON.parse(savedValue) : true;
+  });
+
+  // Effect to save changes to localStorage
+  useEffect(() => {
+    localStorage.setItem(HAPTICS_STORAGE_KEY, JSON.stringify(hapticsEnabled));
+  }, [hapticsEnabled]);
+
+  // Handler function for the toggle
+  const handleHapticsChange = (checked: boolean) => {
+    setHapticsEnabled(checked);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-text-primary p-4">
       {/* Header Area */}
@@ -20,14 +40,22 @@ const SettingsPage = () => {
 
       {/* Settings Area */}
       <main className="flex-grow space-y-6">
-        {/* Placeholder for Haptics Toggle */}
-        <div className="bg-background-secondary p-4 rounded-lg">
-          <p className="text-text-primary font-medium mb-2">Haptic Feedback</p>
-          <p className="text-text-secondary text-sm">
-            Enable or disable vibrations for actions like start, stop, and save.
-          </p>
-          {/* Toggle component will be added here later */}
-          <p className="text-text-secondary text-xs mt-4 italic">(Toggle coming soon)</p>
+        {/* Haptic Feedback Section */}
+        <div className="bg-background-secondary p-4 rounded-lg flex items-center justify-between">
+          <div>
+            <Label htmlFor="haptics-toggle" className="text-text-primary font-medium mb-1 cursor-pointer">
+              Haptic Feedback
+            </Label>
+            <p className="text-text-secondary text-sm">
+              Enable vibrations for key actions.
+            </p>
+          </div>
+          <Switch
+            id="haptics-toggle"
+            checked={hapticsEnabled}
+            onCheckedChange={handleHapticsChange}
+            aria-label="Toggle haptic feedback"
+          />
         </div>
 
         {/* Placeholder for other potential settings */}
