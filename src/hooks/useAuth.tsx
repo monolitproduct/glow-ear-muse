@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { User, Session } from '@supabase/supabase-js';
+import { Purchases, CustomerInfo } from '@revenuecat/purchases-capacitor';
+import { Capacitor } from '@capacitor/core';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  hasProAccess: boolean;
   signIn: (email: string, password: string) => Promise<{ data: any | null; error: any | null }>;
   signUp: (email: string, password: string) => Promise<{ data: any | null; error: any | null }>;
   signOut: () => Promise<{ data: any | null; error: any | null }>;
@@ -17,6 +20,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasProAccess, setHasProAccess] = useState(false);
+
+  // Helper function to check pro_access entitlement
+  const checkProAccess = (customerInfo: CustomerInfo | null): boolean => {
+    try {
+      const isActive = customerInfo?.entitlements?.active?.['pro_access'] !== undefined;
+      console.log(`pro_access entitlement: ${isActive ? 'active' : 'inactive'}`);
+      return isActive;
+    } catch (error) {
+      console.error('Error checking pro_access entitlement:', error);
+      return false;
+    }
+  };
+
+  // Fetch and update entitlement status
+  const updateEntitlements = async (isLoggedIn: boolean) => {
+    if (!isLoggedIn) {
+      setHasProAccess(false);
+      return;
+    }
+
+    // Only check entitlements on iOS
+    if (Capacitor.getPlatform() !== 'ios') {
+      console.log('Skipping RevenueCat entitlement check - not on iOS');
+      setHasProAccess(false);
+      return;
+    }
+
+    try {
+      const customerInfo = await Purchases.getCustomerInfo();
+      const proAccess = checkProAccess(customerInfo.customerInfo);
+      setHasProAccess(proAccess);
+    } catch (error) {
+      console.error('Error fetching customer info from RevenueCat:', error);
+      setHasProAccess(false);
+    }
+  };
 
   // Initialize session on mount
   useEffect(() => {
@@ -32,6 +72,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      // Update entitlements in parallel (non-blocking)
+      updateEntitlements(session?.user !== null && session?.user !== undefined);
     });
 
     return () => subscription.unsubscribe();
@@ -59,7 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, hasProAccess, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );
