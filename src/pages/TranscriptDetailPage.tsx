@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../integrations/supabase/client';
+import { Button } from '@/components/ui/button';
 
 type Transcript = {
   id: string;
@@ -96,6 +97,19 @@ const TranscriptDetailPage = () => {
               <p className="text-text-primary whitespace-pre-wrap leading-relaxed">
                 {transcript.content}
               </p>
+            </div>
+            
+            {/* Delete Action */}
+            <div className="pt-6 mt-6 border-t border-text-secondary/20 flex justify-end">
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => console.log('Delete clicked for transcript:', id)}
+                aria-label="Delete this transcript permanently"
+                className="transition-colors"
+              >
+                Delete Transcript
+              </Button>
             </div>
           </div>
         )}
