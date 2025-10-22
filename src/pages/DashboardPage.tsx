@@ -33,6 +33,10 @@ const DashboardPage = () => {
           </Link>
         </div>
         
+        <Link to="/settings">
+          Settings
+        </Link>
+        
         <button
           onClick={signOut}
           className="w-full px-4 py-2 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/80 transition-colors"
