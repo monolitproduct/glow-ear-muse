@@ -1,4 +1,16 @@
 {
   "appTitle": "EyeHearU",
-  "welcomeMessage": "Welcome!"
+  "welcomeMessage": "Welcome!",
+  "login": {
+    "title": "Sign In to EyeHearU",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "loggingIn": "Logging in...",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "invalidEmailFormat": "Invalid email format"
+  }
 }

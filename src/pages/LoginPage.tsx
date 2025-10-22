@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function LoginPage() {
   
   const navigate = useNavigate();
   const { signIn } = useAuth();
+  const { t } = useTranslation();
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -18,7 +20,7 @@ export default function LoginPage() {
     setError(null);
     
     if (!validateEmail(email)) {
-      setError('Invalid email format');
+      setError(t('login.invalidEmailFormat'));
       return;
     }
     
@@ -36,12 +38,12 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-md w-full bg-surface-800 p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-text-primary mb-6">Sign In to EyeHearU</h2>
+        <h2 className="text-2xl font-semibold text-text-primary mb-6">{t('login.title')}</h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label htmlFor="email" className="block text-sm text-text-secondary mb-2">
-              Email
+              {t('login.emailLabel')}
             </label>
             <input
               id="email"
@@ -49,13 +51,13 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-bg-dark-start border border-border-contrast rounded-md p-2 text-text-primary focus:ring-2 focus:ring-primary-500 focus:outline-none"
-              placeholder="your@email.com"
+              placeholder={t('login.emailPlaceholder')}
             />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm text-text-secondary mb-2">
-              Password
+              {t('login.passwordLabel')}
             </label>
             <input
               id="password"
@@ -63,7 +65,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-bg-dark-start border border-border-contrast rounded-md p-2 text-text-primary focus:ring-2 focus:ring-primary-500 focus:outline-none"
-              placeholder="••••••••"
+              placeholder={t('login.passwordPlaceholder')}
             />
           </div>
 
@@ -78,16 +80,16 @@ export default function LoginPage() {
             disabled={loading}
             className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded-md transition-colors mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Logging in...' : 'Sign In'}
+            {loading ? t('login.loggingIn') : t('login.signIn')}
           </button>
 
           <p className="mt-6 text-center text-sm text-text-secondary">
-            Don't have an account?{' '}
+            {t('login.noAccount')}{' '}
             <Link 
               to="/register" 
               className="text-accent-primary hover:text-accent-primary/80 font-medium transition-colors"
             >
-              Sign Up
+              {t('login.signUp')}
             </Link>
           </p>
         </form>
