@@ -33,7 +33,11 @@ const DashboardPage = () => {
           </Link>
         </div>
         
-        <Link to="/settings">
+        <Link
+          to="/settings"
+          className="w-full px-6 py-3 my-4 bg-background/50 border-2 border-text-secondary text-text-primary font-semibold rounded-lg hover:bg-text-secondary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+          aria-label="Go to settings page"
+        >
           Settings
         </Link>
         
