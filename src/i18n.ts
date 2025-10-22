@@ -1,33 +1,29 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import HttpApi from 'i18next-http-backend'; // For loading translations
 
 i18n
+  // Load translation using http -> see /public/locales
+  .use(HttpApi)
+  // Detect user language
+  .use(LanguageDetector)
+  // Pass the i18n instance to react-i18next.
   .use(initReactI18next)
+  // Init i18next
   .init({
-    resources: {
-      en: {
-        translation: require('../public/locales/en.json'),
-      },
-      de: {
-        translation: require('../public/locales/de.json'),
-      },
-      es: {
-        translation: require('../public/locales/es.json'),
-      },
-      fr: {
-        translation: require('../public/locales/fr.json'),
-      },
-      hu: {
-        translation: require('../public/locales/hu.json'),
-      },
-      it: {
-        translation: require('../public/locales/it.json'),
-      },
-    },
-    lng: 'en',
+    supportedLngs: ['en', 'es', 'fr', 'de', 'it', 'hu'], // Based on Project Guide
     fallbackLng: 'en',
+    debug: process.env.NODE_ENV === 'development', // Enable debug logs in dev
+    detection: {
+      order: ['localStorage', 'navigator'], // Detect language preference
+      caches: ['localStorage'],
+    },
     interpolation: {
-      escapeValue: false,
+      escapeValue: false, // React already safes from xss
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/translation.json', // Path to translation files
     },
   });
 
