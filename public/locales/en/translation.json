@@ -36,5 +36,29 @@
     "viewSavedTranscriptsButton": "View Saved Transcripts",
     "settingsButton": "Settings",
     "signOutButton": "Sign Out"
+  },
+  "transcription": {
+    "header": {
+      "userLabel": "User:",
+      "dashboardLink": "Dashboard",
+      "upgradeButton": "Upgrade",
+      "signOutButton": "Sign Out",
+      "flipButton": "Flip",
+      "unflipButton": "Unflip"
+    },
+    "main": {
+      "placeholder": "Press the button to start transcribing..."
+    },
+    "footer": {
+      "languageLabel": "Language",
+      "saveButton": "Save",
+      "startButton": "Start",
+      "stopButton": "Stop"
+    },
+    "errors": {
+      "permissionDenied": "Speech recognition permission was denied.",
+      "startError": "Could not start speech recognition.",
+      "stopError": "Error stopping recognition."
+    }
   }
 }

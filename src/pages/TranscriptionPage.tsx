@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import LanguageSelector from '../components/LanguageSelector';
@@ -27,6 +28,7 @@ const areHapticsEnabled = (): boolean => {
 };
 
 const TranscriptionPage = () => {
+  const { t } = useTranslation();
   const { user, signOut, hasProAccess } = useAuth();
   const shouldReduceMotion = useReducedMotion();
   const [isRecording, setIsRecording] = useState(false);
@@ -99,7 +101,7 @@ const TranscriptionPage = () => {
         }
       } catch (e) {
         console.error("Error stopping recognition", e);
-        setError("Error stopping recognition.");
+        setError(t('transcription.errors.stopError'));
         setIsRecording(false);
 
         // Haptic feedback on error
@@ -126,7 +128,7 @@ const TranscriptionPage = () => {
             await Haptics.impact({ style: ImpactStyle.Medium }); // Simulate "Sharp tap"
           }
         } else {
-          setError('Speech recognition permission was denied.');
+          setError(t('transcription.errors.permissionDenied'));
 
           // Haptic feedback on permission denied
           if (areHapticsEnabled()) {
@@ -135,7 +137,7 @@ const TranscriptionPage = () => {
         }
       } catch (e) {
         console.error("Error starting recognition", e);
-        setError('Could not start speech recognition.');
+        setError(t('transcription.errors.startError'));
 
         // Haptic feedback on error
         if (areHapticsEnabled()) {
@@ -188,38 +190,38 @@ const TranscriptionPage = () => {
       {/* Header Area */}
       <header className="flex justify-between items-center mb-4">
         <p className="text-sm">
-          User: <span className="font-semibold">{user?.email}</span>
+          {t('transcription.header.userLabel')} <span className="font-semibold">{user?.email}</span>
         </p>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setIsFlipped(prev => !prev)}
             className="text-sm text-accent-secondary hover:underline"
-            aria-label={isFlipped ? "Unflip screen" : "Flip screen"}
+            aria-label={isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
           >
-            {isFlipped ? 'Unflip' : 'Flip'}
+            {isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
           </button>
           {!hasProAccess && (
             <Link
               to="/purchase"
               className="text-sm px-3 py-1 bg-accent-primary text-white font-semibold rounded hover:bg-accent-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
-              aria-label="Upgrade to unlimited transcription"
+              aria-label={t('transcription.header.upgradeButton')}
             >
-              Upgrade
+              {t('transcription.header.upgradeButton')}
             </Link>
           )}
           <Link
             to="/dashboard"
             className="text-sm text-accent-primary hover:underline"
-            aria-label="Back to dashboard"
+            aria-label={t('transcription.header.dashboardLink')}
           >
-            Dashboard
+            {t('transcription.header.dashboardLink')}
           </Link>
           <button
             onClick={signOut}
             className="text-sm text-accent-primary hover:underline"
-            aria-label="Sign out"
+            aria-label={t('transcription.header.signOutButton')}
           >
-            Sign Out
+            {t('transcription.header.signOutButton')}
           </button>
         </div>
       </header>
@@ -237,7 +239,7 @@ const TranscriptionPage = () => {
         {/* Transcription Display Area */}
         <main className="flex-grow flex items-center justify-center p-4">
           <p className="text-3xl text-text-primary text-center">
-            {finalTranscript}
+            {finalTranscript || (!isRecording && t('transcription.main.placeholder'))}
             <span className="text-text-secondary opacity-75">{interimTranscript}</span>
           </p>
         </main>
@@ -246,6 +248,7 @@ const TranscriptionPage = () => {
         <footer className="flex flex-col justify-center items-center py-4 px-4">
           <div className="w-full max-w-xs mb-4">
             <LanguageSelector
+              label={t('transcription.footer.languageLabel')}
               selectedLanguage={selectedLanguage}
               onChange={setSelectedLanguage}
             />
@@ -258,9 +261,9 @@ const TranscriptionPage = () => {
               disabled={!canSave}
               className="w-20 h-20 bg-accent-secondary rounded-full text-white font-bold text-lg shadow-lg transition-all
                          disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Save transcript"
+              aria-label={t('transcription.footer.saveButton')}
             >
-              Save
+              {t('transcription.footer.saveButton')}
             </button>
 
             {/* Start/Stop Button */}
@@ -286,14 +289,14 @@ const TranscriptionPage = () => {
                 },
                 whileTap: { type: 'spring', stiffness: 400, damping: 17 }
               }}
-              aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+              aria-label={isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
               className={`w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg transition-colors ${
                 isRecording
                   ? 'bg-accent-error hover:bg-accent-error/90'
                   : 'bg-accent-primary hover:bg-accent-primary/90'
               }`}
             >
-              {isRecording ? 'Stop' : 'Start'}
+              {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
             </motion.button>
           </div>
         </footer>

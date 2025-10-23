@@ -13,11 +13,13 @@ const languages = [
 interface LanguageSelectorProps {
   selectedLanguage: string;
   onChange: (languageCode: string) => void;
+  label?: string;
 }
 
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   selectedLanguage,
   onChange,
+  label = 'Language',
 }) => {
   return (
     <div className="w-full">
@@ -25,7 +27,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         htmlFor="language-select"
         className="block text-sm font-medium text-text-secondary mb-1"
       >
-        Language
+        {label}
       </label>
       <select
         id="language-select"
