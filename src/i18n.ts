@@ -14,7 +14,9 @@ i18n
   .init({
     supportedLngs: ['en', 'es', 'fr', 'de', 'it', 'hu'], // Based on Project Guide
     fallbackLng: 'en',
-    debug: process.env.NODE_ENV === 'development', // Enable debug logs in dev
+    debug: true, // Enable debug logs to troubleshoot
+    ns: 'translation',
+    defaultNS: 'translation',
     detection: {
       order: ['localStorage', 'navigator'], // Detect language preference
       caches: ['localStorage'],

@@ -1,4 +1,5 @@
 import './i18n'; // Initialize i18next FIRST - before React
+import { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
@@ -42,4 +43,8 @@ initializeRevenueCat().catch(error => {
   console.error('❌ RevenueCat initialization failed:', error);
 });
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <Suspense fallback={<div>Loading...</div>}>
+    <App />
+  </Suspense>
+);
