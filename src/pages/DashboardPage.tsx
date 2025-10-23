@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 const DashboardPage = () => {
   const { user, signOut } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
       <div className="w-full max-w-md text-center">
         <h1 className="text-2xl font-bold text-text-primary mb-2">
-          Welcome to EyeHearU
+          {t('dashboard.title')}
         </h1>
         <p className="text-text-secondary mb-6">
-          Logged in as: {user ? user.email : 'Loading user...'}
+          {t('dashboard.loggedInAs')} {user ? user.email : 'Loading user...'}
         </p>
         
         <div className="flex flex-col gap-4 w-full mt-6">
@@ -21,7 +23,7 @@ const DashboardPage = () => {
             className="w-full px-6 py-3 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/90 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
             aria-label="Go to transcription page"
           >
-            Start New Transcription
+            {t('dashboard.startTranscriptionButton')}
           </Link>
           
           <Link
@@ -29,7 +31,7 @@ const DashboardPage = () => {
             className="w-full px-6 py-3 bg-background/50 border-2 border-accent-primary text-accent-primary font-semibold rounded-lg hover:bg-accent-primary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
             aria-label="View saved transcripts"
           >
-            View Saved Transcripts
+            {t('dashboard.viewSavedTranscriptsButton')}
           </Link>
         </div>
         
@@ -38,14 +40,14 @@ const DashboardPage = () => {
           className="w-full px-6 py-3 my-4 bg-background/50 border-2 border-text-secondary text-text-primary font-semibold rounded-lg hover:bg-text-secondary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
           aria-label="Go to settings page"
         >
-          Settings
+          {t('dashboard.settingsButton')}
         </Link>
         
         <button
           onClick={signOut}
           className="w-full px-4 py-2 bg-accent-primary text-white font-semibold rounded-lg hover:bg-accent-primary/80 transition-colors"
         >
-          Sign Out
+          {t('dashboard.signOutButton')}
         </button>
       </div>
     </div>

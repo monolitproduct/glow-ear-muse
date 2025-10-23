@@ -28,5 +28,13 @@
     "passwordMismatchError": "Passwords do not match",
     "invalidEmailFormat": "Invalid email format",
     "successMessage": "Account created! Check your email to confirm."
+  },
+  "dashboard": {
+    "title": "Welcome to EyeHearU",
+    "loggedInAs": "Logged in as:",
+    "startTranscriptionButton": "Start New Transcription",
+    "viewSavedTranscriptsButton": "View Saved Transcripts",
+    "settingsButton": "Settings",
+    "signOutButton": "Sign Out"
   }
 }
