@@ -67,5 +67,23 @@
     "loading": "Loading your transcripts...",
     "emptyState": "Your saved transcripts will appear here.",
     "errorState": "Failed to load transcripts. Please try again."
+  },
+  "transcriptDetail": {
+    "title": "Transcript Details",
+    "backLink": "← Back to History",
+    "loading": "Loading transcript...",
+    "metadata": {
+      "savedLabel": "Saved:",
+      "languageLabel": "Language"
+    },
+    "deleteButton": "Delete Transcript",
+    "deletingButton": "Deleting...",
+    "deleteConfirm": "Are you sure you want to delete this transcript? This action cannot be undone.",
+    "error": {
+      "noId": "No transcript ID provided.",
+      "loadFailed": "Could not load transcript. It may have been deleted or you do not have access.",
+      "notFound": "Transcript not found.",
+      "deleteFailed": "Failed to delete transcript. Please try again."
+    }
   }
 }

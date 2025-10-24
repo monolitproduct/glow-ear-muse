@@ -4,6 +4,7 @@ import { supabase } from '../integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
+import { useTranslation } from 'react-i18next';
 
 type Transcript = {
   id: string;
@@ -13,6 +14,7 @@ type Transcript = {
 };
 
 const TranscriptDetailPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [transcript, setTranscript] = useState<Transcript | null>(null);
@@ -25,7 +27,7 @@ const TranscriptDetailPage = () => {
 
     // Show confirmation dialog
     const confirmed = window.confirm(
-      'Are you sure you want to delete this transcript? This action cannot be undone.'
+      t('transcriptDetail.deleteConfirm')
     );
 
     if (!confirmed) return;
@@ -53,7 +55,7 @@ const TranscriptDetailPage = () => {
       navigate('/history');
     } catch (err) {
       console.error('Error deleting transcript:', err);
-      setError('Failed to delete transcript. Please try again.');
+      setError(t('transcriptDetail.error.deleteFailed'));
       setDeleting(false);
 
       // Error haptic feedback on iOS
@@ -66,7 +68,7 @@ const TranscriptDetailPage = () => {
   useEffect(() => {
     const fetchTranscript = async () => {
       if (!id) {
-        setError('No transcript ID provided.');
+        setError(t('transcriptDetail.error.noId'));
         setLoading(false);
         return;
       }
@@ -82,39 +84,39 @@ const TranscriptDetailPage = () => {
 
       if (fetchError) {
         console.error('Error fetching transcript:', fetchError.message);
-        setError('Could not load transcript. It may have been deleted or you do not have access.');
+        setError(t('transcriptDetail.error.loadFailed'));
       } else if (data) {
         setTranscript(data);
       } else {
-        setError('Transcript not found.');
+        setError(t('transcriptDetail.error.notFound'));
       }
 
       setLoading(false);
     };
 
     fetchTranscript();
-  }, [id]);
+  }, [id, t]);
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-text-primary p-4">
       {/* Header Area */}
       <header className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold text-text-primary">
-          Transcript Details
+          {t('transcriptDetail.title')}
         </h1>
         <Link
           to="/history"
           className="text-sm text-accent-primary hover:underline focus:outline-none focus:ring-2 focus:ring-accent-primary rounded"
           aria-label="Back to history"
         >
-          ← Back to History
+          {t('transcriptDetail.backLink')}
         </Link>
       </header>
 
       {/* Content Area */}
       <main className="flex-grow bg-background/50 border border-text-secondary/20 p-6 rounded-lg">
         {loading && (
-          <p className="text-text-secondary text-center">Loading transcript...</p>
+          <p className="text-text-secondary text-center">{t('transcriptDetail.loading')}</p>
         )}
         
         {error && (
@@ -133,10 +135,10 @@ const TranscriptDetailPage = () => {
           <div className="space-y-4">
             <div className="pb-4 border-b border-text-secondary/20">
               <p className="text-text-secondary text-sm">
-                Saved: {new Date(transcript.created_at).toLocaleString()}
+                {t('transcriptDetail.metadata.savedLabel')} {new Date(transcript.created_at).toLocaleString()}
               </p>
               <p className="text-text-secondary text-sm">
-                Language: {transcript.language}
+                {t('transcriptDetail.metadata.languageLabel')}: {transcript.language}
               </p>
             </div>
             
@@ -156,7 +158,7 @@ const TranscriptDetailPage = () => {
                 aria-label="Delete this transcript permanently"
                 className="transition-colors"
               >
-                {deleting ? 'Deleting...' : 'Delete Transcript'}
+                {deleting ? t('transcriptDetail.deletingButton') : t('transcriptDetail.deleteButton')}
               </Button>
             </div>
           </div>
