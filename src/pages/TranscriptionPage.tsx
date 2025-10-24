@@ -186,7 +186,7 @@ const TranscriptionPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-background text-text-primary p-4">
+    <div className="flex flex-col h-screen bg-background text-text-primary p-4" style={{ perspective: '1000px' }}>
       {/* Header Area */}
       <header className="flex justify-between items-center mb-4">
         <p className="text-sm">
@@ -229,7 +229,7 @@ const TranscriptionPage = () => {
       {/* Rotation Wrapper - Wraps main + footer */}
       <motion.div
         className="flex flex-col flex-grow overflow-hidden"
-        animate={{ rotate: isFlipped && !shouldReduceMotion ? 180 : 0 }}
+        animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
         transition={{ 
           type: 'spring', 
           stiffness: 260, 
