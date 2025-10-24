@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
 const SettingsPage = () => {
+  const { t } = useTranslation();
   const HAPTICS_STORAGE_KEY = 'eyeHearU_hapticsEnabled';
 
   // Initialize state from localStorage or default to true
@@ -27,14 +29,14 @@ const SettingsPage = () => {
       {/* Header Area */}
       <header className="flex justify-between items-center mb-6 border-b border-text-secondary/20 pb-4">
         <h1 className="text-xl font-bold text-text-primary">
-          Settings
+          {t('settings.title')}
         </h1>
         <Link
           to="/dashboard"
           className="text-sm text-accent-primary hover:underline"
           aria-label="Back to dashboard"
         >
-          ← Back to Dashboard
+          {t('settings.backLink')}
         </Link>
       </header>
 
@@ -44,10 +46,10 @@ const SettingsPage = () => {
         <div className="bg-background-secondary p-4 rounded-lg flex items-center justify-between">
           <div>
             <Label htmlFor="haptics-toggle" className="text-text-primary font-medium mb-1 cursor-pointer">
-              Haptic Feedback
+              {t('settings.haptics.label')}
             </Label>
             <p className="text-text-secondary text-sm">
-              Enable vibrations for key actions.
+              {t('settings.haptics.description')}
             </p>
           </div>
           <Switch

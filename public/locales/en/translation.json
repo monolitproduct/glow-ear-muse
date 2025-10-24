@@ -85,5 +85,13 @@
       "notFound": "Transcript not found.",
       "deleteFailed": "Failed to delete transcript. Please try again."
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "backLink": "← Back to Dashboard",
+    "haptics": {
+      "label": "Haptic Feedback",
+      "description": "Enable vibrations for key actions."
+    }
   }
 }
