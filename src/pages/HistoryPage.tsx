@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../integrations/supabase/client';
+import { useTranslation } from 'react-i18next';
 
 const HistoryPage = () => {
+  const { t } = useTranslation();
+  
   type Transcript = {
     id: string;
     created_at: string;
@@ -37,24 +40,24 @@ const HistoryPage = () => {
       {/* Header Area */}
       <header className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold text-text-primary">
-          Saved Transcripts
+          {t('history.title')}
         </h1>
         <Link
           to="/dashboard"
           className="text-sm text-accent-primary hover:underline"
           aria-label="Back to dashboard"
         >
-          Dashboard
+          {t('history.backLink')}
         </Link>
       </header>
 
       {/* Content Area */}
       <main className="flex-grow">
         {loading ? (
-          <p className="text-text-secondary text-center">Loading...</p>
+          <p className="text-text-secondary text-center">{t('history.loading')}</p>
         ) : transcripts.length === 0 ? (
           <p className="text-text-secondary text-center">
-            Your saved transcripts will appear here.
+            {t('history.emptyState')}
           </p>
         ) : (
           <ul className="space-y-4">

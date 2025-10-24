@@ -60,5 +60,12 @@
       "startError": "Could not start speech recognition.",
       "stopError": "Error stopping recognition."
     }
+  },
+  "history": {
+    "title": "Saved Transcripts",
+    "backLink": "Dashboard",
+    "loading": "Loading your transcripts...",
+    "emptyState": "Your saved transcripts will appear here.",
+    "errorState": "Failed to load transcripts. Please try again."
   }
 }
