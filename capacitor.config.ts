@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.04722d6e14874e1c9ebfc9752739dabc',
-  appName: 'glow-ear-muse',
+  appId: 'com.monolitproduct.eyehearu',
+  appName: 'EyeHearU',
   webDir: 'dist',
   server: {
     url: 'https://04722d6e-1487-4e1c-9ebf-c9752739dabc.lovableproject.com?forceHideBadge=true',
