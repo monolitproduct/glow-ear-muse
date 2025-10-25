@@ -186,7 +186,7 @@ const TranscriptionPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-background text-text-primary p-4" style={{ perspective: '1000px' }}>
+    <div className="flex flex-col h-screen text-text-primary p-4" style={{ perspective: '1000px' }}>
       {/* Header Area */}
       <header className="flex justify-between items-center mb-4">
         <p className="text-sm">
