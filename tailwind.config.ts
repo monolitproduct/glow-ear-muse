@@ -74,11 +74,33 @@ export default {
         "text-primary": "#F0F0F0",
         "text-secondary": "#8A8A8A",
         "border-contrast": "#2A2A3C",
+        "gradient-aurora-start": "var(--color-primary-500)",
+        "gradient-aurora-mid": "#8B5CF6",
+        "gradient-aurora-end": "#EC4899",
+        "gradient-cyber-start": "var(--color-accent-500)",
+        "gradient-cyber-mid": "#3B82F6",
+        "gradient-cyber-end": "#8B5CF6",
+        "glow-primary": "rgba(99, 102, 241, 0.6)",
+        "glow-accent": "rgba(6, 182, 212, 0.5)",
+        "glow-intense": "rgba(139, 92, 246, 0.8)",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backdropBlur: {
+        xs: "4px",
+        glass: "16px",
+        "glass-intense": "24px",
+      },
+      boxShadow: {
+        "elevation-float":
+          "0 2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1), 0 16px 32px rgba(0,0,0,0.1), 0 0 40px var(--color-glow-primary)",
+        "elevation-panel":
+          "0 4px 8px rgba(0,0,0,0.15), 0 8px 16px rgba(0,0,0,0.15), inset 0 1px 2px rgba(255,255,255,0.1)",
+        "elevation-modal":
+          "0 12px 24px rgba(0,0,0,0.2), 0 24px 48px rgba(0,0,0,0.2), 0 48px 96px rgba(0,0,0,0.2), 0 0 80px var(--color-glow-intense)",
       },
       keyframes: {
         "accordion-down": {
@@ -97,10 +119,15 @@ export default {
             height: "0",
           },
         },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "gradient-shift": "gradient-shift 15s ease infinite",
       },
     },
   },

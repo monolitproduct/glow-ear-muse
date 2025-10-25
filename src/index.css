@@ -13,6 +13,11 @@ All colors MUST be HSL.
     --glow-primary: 160 100% 50%;
     --text-primary: 0 0% 0%;
 
+    /* Enhanced Visual Design Tokens */
+    --color-primary-500: #6366F1;
+    --color-glow-primary: rgba(99, 102, 241, 0.6);
+    --color-glow-intense: rgba(139, 92, 246, 0.8);
+
     /* Standard Design Tokens */
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
