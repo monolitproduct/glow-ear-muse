@@ -37,7 +37,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="max-w-md w-full bg-surface-800 p-8 rounded-lg shadow-lg">
+      <div className="max-w-md w-full bg-surface-800/30 backdrop-blur-md border border-border-contrast/50 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-text-primary mb-6">{t('login.title')}</h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

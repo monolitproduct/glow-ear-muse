@@ -28,7 +28,7 @@ const DashboardPage = () => {
           
           <Link
             to="/history"
-            className="w-full px-6 py-3 bg-background/50 border-2 border-accent-primary text-accent-primary font-semibold rounded-lg hover:bg-accent-primary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+            className="w-full px-6 py-3 bg-background/20 backdrop-blur-sm border-2 border-accent-primary text-accent-primary font-semibold rounded-lg hover:bg-accent-primary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
             aria-label="View saved transcripts"
           >
             {t('dashboard.viewSavedTranscriptsButton')}
@@ -37,7 +37,7 @@ const DashboardPage = () => {
         
         <Link
           to="/settings"
-          className="w-full px-6 py-3 my-4 bg-background/50 border-2 border-text-secondary text-text-primary font-semibold rounded-lg hover:bg-text-secondary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+          className="w-full px-6 py-3 my-4 bg-background/20 backdrop-blur-sm border-2 border-text-secondary text-text-primary font-semibold rounded-lg hover:bg-text-secondary/10 transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
           aria-label="Go to settings page"
         >
           {t('dashboard.settingsButton')}
