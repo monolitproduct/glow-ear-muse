@@ -226,98 +226,181 @@ const TranscriptionPage = () => {
         </div>
       </header>
 
-      {/* Rotation Wrapper - Wraps main + footer */}
-      <motion.div
-        className="flex flex-col flex-grow overflow-hidden"
-        animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
-        transition={{ 
-          type: 'spring', 
-          stiffness: 260, 
-          damping: 20 
-        }}
+      {/* 3D Card Wrapper */}
+      <div 
+        className="relative flex flex-col flex-grow overflow-hidden [transform-style:preserve-3d]"
+        style={{ perspective: '1000px' }}
       >
-        {/* Transcription Display Area */}
-        <main className="flex-grow flex items-center justify-center p-4">
-          <p className="text-3xl text-text-primary text-center leading-relaxed">
-            {finalTranscript}{' '}
-            <AnimatePresence mode="wait">
-              {interimTranscript && (
-                <motion.span
-                  key={interimTranscript}
-                  className="text-text-secondary opacity-75 inline-block"
-                  initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
-                  animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0 }}
-                  transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 200, damping: 20 }}
-                >
-                  {interimTranscript}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </p>
-        </main>
+        {/* Front Face */}
+        <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col">
+          {/* Transcription Display Area */}
+          <main className="flex-grow flex items-center justify-center p-4">
+            <p className="text-3xl text-text-primary text-center leading-relaxed">
+              {finalTranscript}{' '}
+              <AnimatePresence mode="wait">
+                {interimTranscript && (
+                  <motion.span
+                    key={interimTranscript}
+                    className="text-text-secondary opacity-75 inline-block"
+                    initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
+                    animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0 }}
+                    transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 200, damping: 20 }}
+                  >
+                    {interimTranscript}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </p>
+          </main>
 
-        {/* Action Button Area */}
-        <footer className="flex flex-col justify-center items-center py-4 px-4">
-          <div className="w-full max-w-xs mb-4">
-            <LanguageSelector
-              label={t('transcription.footer.languageLabel')}
-              selectedLanguage={selectedLanguage}
-              onChange={setSelectedLanguage}
-            />
-          </div>
-          {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
-          <div className="flex w-full max-w-xs justify-center items-center gap-4">
-            {/* Save Button */}
-            <button
-              onClick={handleSave}
-              disabled={!canSave}
-              className="w-20 h-20 bg-accent-secondary rounded-full text-white font-bold text-lg shadow-lg transition-all
-                         disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label={t('transcription.footer.saveButton')}
-            >
-              {t('transcription.footer.saveButton')}
-            </button>
+          {/* Action Button Area */}
+          <footer className="flex flex-col justify-center items-center py-4 px-4">
+            <div className="w-full max-w-xs mb-4">
+              <LanguageSelector
+                label={t('transcription.footer.languageLabel')}
+                selectedLanguage={selectedLanguage}
+                onChange={setSelectedLanguage}
+              />
+            </div>
+            {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
+            <div className="flex w-full max-w-xs justify-center items-center gap-4">
+              {/* Save Button */}
+              <button
+                onClick={handleSave}
+                disabled={!canSave}
+                className="w-20 h-20 bg-accent-secondary rounded-full text-white font-bold text-lg shadow-lg transition-all
+                           disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label={t('transcription.footer.saveButton')}
+              >
+                {t('transcription.footer.saveButton')}
+              </button>
 
-            {/* Start/Stop Button */}
-            <motion.button
-              onClick={toggleRecording}
-              whileTap={{ scale: shouldReduceMotion ? 1 : 0.9 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              aria-label={isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
-              className={`relative w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg overflow-visible 
-                ${isRecording ? 'bg-accent-error hover:bg-accent-error/90' : 'bg-gradient-to-br from-accent-primary to-accent-primary hover:opacity-90'}`}
-            >
-              {!shouldReduceMotion && isRecording && (
-                <motion.div
-                  className="absolute inset-0 rounded-full pointer-events-none"
-                  style={{ boxShadow: '0 0 0 0px var(--color-glow-primary)' }}
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    boxShadow: [
-                      '0 0 20px 5px var(--color-glow-primary)',
-                      '0 0 60px 15px var(--color-glow-intense)',
-                      '0 0 20px 5px var(--color-glow-primary)',
-                    ]
-                  }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: [0.4, 0, 0.2, 1] }}
-                />
-              )}
-              {!shouldReduceMotion && isRecording && (
-                <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-primary-500/50 pointer-events-none"
-                  style={{ borderColor: 'var(--color-primary-500)' }}
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                  transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              )}
-              <span className="relative z-10">
-                {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
-              </span>
-            </motion.button>
-          </div>
-        </footer>
-      </motion.div>
+              {/* Start/Stop Button */}
+              <motion.button
+                onClick={toggleRecording}
+                whileTap={{ scale: shouldReduceMotion ? 1 : 0.9 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                aria-label={isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+                className={`relative w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg overflow-visible 
+                  ${isRecording ? 'bg-accent-error hover:bg-accent-error/90' : 'bg-gradient-to-br from-accent-primary to-accent-primary hover:opacity-90'}`}
+              >
+                {!shouldReduceMotion && isRecording && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full pointer-events-none"
+                    style={{ boxShadow: '0 0 0 0px var(--color-glow-primary)' }}
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      boxShadow: [
+                        '0 0 20px 5px var(--color-glow-primary)',
+                        '0 0 60px 15px var(--color-glow-intense)',
+                        '0 0 20px 5px var(--color-glow-primary)',
+                      ]
+                    }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: [0.4, 0, 0.2, 1] }}
+                  />
+                )}
+                {!shouldReduceMotion && isRecording && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-primary-500/50 pointer-events-none"
+                    style={{ borderColor: 'var(--color-primary-500)' }}
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                )}
+                <span className="relative z-10">
+                  {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+                </span>
+              </motion.button>
+            </div>
+          </footer>
+        </div>
+
+        {/* Back Face */}
+        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col">
+          {/* Transcription Display Area */}
+          <main className="flex-grow flex items-center justify-center p-4">
+            <p className="text-3xl text-text-primary text-center leading-relaxed">
+              {finalTranscript}{' '}
+              <AnimatePresence mode="wait">
+                {interimTranscript && (
+                  <motion.span
+                    key={interimTranscript}
+                    className="text-text-secondary opacity-75 inline-block"
+                    initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
+                    animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0 }}
+                    transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 200, damping: 20 }}
+                  >
+                    {interimTranscript}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </p>
+          </main>
+
+          {/* Action Button Area */}
+          <footer className="flex flex-col justify-center items-center py-4 px-4">
+            <div className="w-full max-w-xs mb-4">
+              <LanguageSelector
+                label={t('transcription.footer.languageLabel')}
+                selectedLanguage={selectedLanguage}
+                onChange={setSelectedLanguage}
+              />
+            </div>
+            {error && <p className="text-accent-error text-sm text-center mb-2" role="alert">{error}</p>}
+            <div className="flex w-full max-w-xs justify-center items-center gap-4">
+              {/* Save Button */}
+              <button
+                onClick={handleSave}
+                disabled={!canSave}
+                className="w-20 h-20 bg-accent-secondary rounded-full text-white font-bold text-lg shadow-lg transition-all
+                           disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label={t('transcription.footer.saveButton')}
+              >
+                {t('transcription.footer.saveButton')}
+              </button>
+
+              {/* Start/Stop Button */}
+              <motion.button
+                onClick={toggleRecording}
+                whileTap={{ scale: shouldReduceMotion ? 1 : 0.9 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                aria-label={isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+                className={`relative w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg overflow-visible 
+                  ${isRecording ? 'bg-accent-error hover:bg-accent-error/90' : 'bg-gradient-to-br from-accent-primary to-accent-primary hover:opacity-90'}`}
+              >
+                {!shouldReduceMotion && isRecording && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full pointer-events-none"
+                    style={{ boxShadow: '0 0 0 0px var(--color-glow-primary)' }}
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      boxShadow: [
+                        '0 0 20px 5px var(--color-glow-primary)',
+                        '0 0 60px 15px var(--color-glow-intense)',
+                        '0 0 20px 5px var(--color-glow-primary)',
+                      ]
+                    }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: [0.4, 0, 0.2, 1] }}
+                  />
+                )}
+                {!shouldReduceMotion && isRecording && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-primary-500/50 pointer-events-none"
+                    style={{ borderColor: 'var(--color-primary-500)' }}
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                )}
+                <span className="relative z-10">
+                  {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+                </span>
+              </motion.button>
+            </div>
+          </footer>
+        </div>
+      </div>
     </div>
   );
 };
