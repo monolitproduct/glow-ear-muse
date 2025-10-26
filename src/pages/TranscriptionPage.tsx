@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
@@ -238,9 +238,22 @@ const TranscriptionPage = () => {
       >
         {/* Transcription Display Area */}
         <main className="flex-grow flex items-center justify-center p-4">
-          <p className="text-3xl text-text-primary text-center">
-            {finalTranscript || (!isRecording && t('transcription.main.placeholder'))}
-            <span className="text-text-secondary opacity-75">{interimTranscript}</span>
+          <p className="text-3xl text-text-primary text-center leading-relaxed">
+            {finalTranscript}{' '}
+            <AnimatePresence mode="wait">
+              {interimTranscript && (
+                <motion.span
+                  key={interimTranscript}
+                  className="text-text-secondary opacity-75 inline-block"
+                  initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
+                  animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0 }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 200, damping: 20 }}
+                >
+                  {interimTranscript}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </p>
         </main>
 
