@@ -227,9 +227,11 @@ const TranscriptionPage = () => {
       </header>
 
       {/* 3D Card Wrapper */}
-      <div 
+      <motion.div 
         className="relative flex flex-col flex-grow overflow-hidden [transform-style:preserve-3d]"
         style={{ perspective: '1000px' }}
+        animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20, duration: shouldReduceMotion ? 0 : undefined }}
       >
         {/* Front Face */}
         <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col">
@@ -400,7 +402,7 @@ const TranscriptionPage = () => {
             </div>
           </footer>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

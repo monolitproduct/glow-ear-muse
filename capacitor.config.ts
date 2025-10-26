@@ -5,7 +5,6 @@ const config: CapacitorConfig = {
   appName: 'EyeHearU',
   webDir: 'dist',
   server: {
-    url: 'https://04722d6e-1487-4e1c-9ebf-c9752739dabc.lovableproject.com?forceHideBadge=true',
     cleartext: true,
   },
   ios: {
