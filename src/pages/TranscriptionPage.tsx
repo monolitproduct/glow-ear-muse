@@ -269,34 +269,38 @@ const TranscriptionPage = () => {
             {/* Start/Stop Button */}
             <motion.button
               onClick={toggleRecording}
-              animate={isRecording && !shouldReduceMotion ? breathingAnimation : {}}
-              whileTap={shouldReduceMotion ? undefined : { scale: 0.9 }}
-              transition={{
-                default: {
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                },
-                boxShadow: {
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeOut"
-                },
-                opacity: {
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                },
-                whileTap: { type: 'spring', stiffness: 400, damping: 17 }
-              }}
+              whileTap={{ scale: shouldReduceMotion ? 1 : 0.9 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               aria-label={isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
-              className={`w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg transition-colors ${
-                isRecording
-                  ? 'bg-accent-error hover:bg-accent-error/90'
-                  : 'bg-accent-primary hover:bg-accent-primary/90'
-              }`}
+              className={`relative w-20 h-20 rounded-full text-white font-bold text-lg shadow-lg overflow-visible 
+                ${isRecording ? 'bg-accent-error hover:bg-accent-error/90' : 'bg-gradient-to-br from-accent-primary to-accent-primary hover:opacity-90'}`}
             >
-              {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+              {!shouldReduceMotion && isRecording && (
+                <motion.div
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{ boxShadow: '0 0 0 0px var(--color-glow-primary)' }}
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    boxShadow: [
+                      '0 0 20px 5px var(--color-glow-primary)',
+                      '0 0 60px 15px var(--color-glow-intense)',
+                      '0 0 20px 5px var(--color-glow-primary)',
+                    ]
+                  }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: [0.4, 0, 0.2, 1] }}
+                />
+              )}
+              {!shouldReduceMotion && isRecording && (
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-primary-500/50 pointer-events-none"
+                  style={{ borderColor: 'var(--color-primary-500)' }}
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
+                  transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              )}
+              <span className="relative z-10">
+                {isRecording ? t('transcription.footer.stopButton') : t('transcription.footer.startButton')}
+              </span>
             </motion.button>
           </div>
         </footer>
