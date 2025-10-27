@@ -8,6 +8,12 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* iOS Safe Area Insets */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+
     /* EyeHearU "Kinetic Glow" Design System Colors */
     --bg-primary: 0 0% 100%;
     --glow-primary: 160 100% 50%;

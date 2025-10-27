@@ -188,7 +188,7 @@ const TranscriptionPage = () => {
   return (
     <div className="flex flex-col h-screen text-text-primary p-4" style={{ perspective: '1000px' }}>
       {/* Header Area */}
-      <header className="flex justify-between items-center mb-4">
+      <header className="flex justify-between items-center mb-4 pt-[calc(1rem+var(--safe-top))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
         <p className="text-sm">
           {t('transcription.header.userLabel')} <span className="font-semibold">{user?.email}</span>
         </p>
@@ -257,7 +257,7 @@ const TranscriptionPage = () => {
           </main>
 
           {/* Action Button Area */}
-          <footer className="flex flex-col justify-center items-center py-4 px-4">
+          <footer className="flex flex-col justify-center items-center pt-4 pb-[calc(1rem+var(--safe-bottom))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
             <div className="w-full max-w-xs mb-4">
               <LanguageSelector
                 label={t('transcription.footer.languageLabel')}
@@ -342,7 +342,7 @@ const TranscriptionPage = () => {
           </main>
 
           {/* Action Button Area */}
-          <footer className="flex flex-col justify-center items-center py-4 px-4">
+          <footer className="flex flex-col justify-center items-center pt-4 pb-[calc(1rem+var(--safe-bottom))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
             <div className="w-full max-w-xs mb-4">
               <LanguageSelector
                 label={t('transcription.footer.languageLabel')}
