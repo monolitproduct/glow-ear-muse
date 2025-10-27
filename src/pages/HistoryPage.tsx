@@ -63,11 +63,27 @@ const HistoryPage = () => {
           <ul className="space-y-4">
             {transcripts.map((transcript) => (
               <li key={transcript.id}>
-                <Link
-                  to={`/transcript/${transcript.id}`}
-                  className="block bg-background-secondary p-4 rounded-lg shadow transition-opacity hover:opacity-80 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-primary"
-                  aria-label={`View full transcript from ${new Date(transcript.created_at).toLocaleString()}`}
-                >
+              <Link
+                to={`/transcript/${transcript.id}`}
+                className="block p-4 rounded-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 backdrop-blur-lg border"
+                style={{
+                  backgroundColor: 'var(--bg-secondary)',
+                  opacity: 0.7,
+                  borderColor: 'var(--bg-tertiary)',
+                  boxShadow: '0 8px 16px var(--glow-recording-outer)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--bg-tertiary)';
+                  e.currentTarget.style.opacity = '0.8';
+                  e.currentTarget.style.boxShadow = '0 8px 20px var(--glow-recording-intense)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                  e.currentTarget.style.opacity = '0.7';
+                  e.currentTarget.style.boxShadow = '0 8px 16px var(--glow-recording-outer)';
+                }}
+                aria-label={`View full transcript from ${new Date(transcript.created_at).toLocaleString()}`}
+              >
                   <p className="text-text-primary text-sm line-clamp-3">
                     {transcript.content}
                   </p>
