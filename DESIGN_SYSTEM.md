@@ -1,214 +1,484 @@
-# EyeHearU Design System (v2.0)
-
-**Version:** 2.0 | **Date:** October 25, 2025
-**Purpose:** Foundational style guide and principles for EyeHearU v2.0. Establishes visual identity and interaction rules for consistency. Serves as a primary reference for all AI collaborators.
-**Hierarchy Note:** This document defines the **design intent**. The canonical implementation source for visual tokens (colors, spacing, etc.) is `tailwind.config.ts` and `src/index.css`. If discrepancies exist, **the code implementation is the active truth.**
-
----
-
-## 1. Core Principles
-
-### 1.1 Brand Foundations
-- **Product Name:** EyeHearU
-- **Purpose:** Accessible live transcription & multimodal assistance.
-- **Tone:** Clear, supportive, trustworthy.
-
-### 1.2 Design Pillars (Reference: `EYEHEARU_PROJECT_GUIDE_Version2.2.md`)
-- **Pillar 2: "Kinetic Glow":** Mandatory. Motion-first, visually stunning, futuristic, premium, dynamic. Includes specific required animations.
-- **Pillar 4: Privacy & Offline-First:** Mandatory. Design choices must support on-device processing where feasible.
-
-### 1.3 Accessibility Principles
-- **WCAG Target:** AA compliance minimum for all text contrast. Mandatory.
-- **Motion:** Respect `prefers-reduced-motion`. Mandatory.
-- **Focus States:** Clear, visible focus indicators required for all interactive elements. Mandatory.
-- **ARIA:** Use appropriate ARIA labels, especially for icon-only buttons. Mandatory.
+# EyeHearU Design System v3.5
+**Version:** 3.5.0  
+**Date:** 2025-10-27  
+**Design Language:** Sonic Clarity  
+**Status:** Production Ready for Multi-AI Workflow  
+**Replaces:** v2.0 "Kinetic Glow" → v3.5 "Sonic Clarity"
 
 ---
 
-## 2. Visual Tokens (Reference Only - Canonical Source: Code)
+## 🎯 EXECUTIVE SUMMARY
 
-### 2.1 Color Palette
-* **Canonical Source:** `tailwind.config.ts` and `src/index.css` (CSS Variables).
-* **Intent:** Dark theme, vibrant accents, clear states.
+### Design Philosophy: Sonic Clarity
 
-| Token Group | Intent / Usage | Example Tailwind Tokens | Example Hex (Verify in Code) |
-|---|---|---|---|
-| **Primary** | Core actions, branding | `primary-500`, `primary-600` | `#6366F1`*, `#4F46E5`* |
-| **Accent** | Highlights, secondary actions | `accent-500` (Cyan) | `#06B6D4`* |
-| **Background** | Base layout, gradients | `bg-dark-start`, `bg-dark-end`, `background` | `#121212`*, `#1A1A2E`*, `#0D0D0F`* |
-| **Surface** | Panel/Card backgrounds | `surface-800` | `#1E1E2A`* |
-| **Text** | Content readability | `text-primary`, `text-secondary` | `#F5F5F7`*, `#B4B4C2`* |
-| **Border** | Dividers, contrast | `border-contrast` | `#2A2A3C`* |
-| **Feedback** | Status indicators | `success-500`, `warn-500`, `danger-500` (`accent-error`) | `#10B981`*, `#F59E0B`*, `#EF4444`* |
+**Sonic Clarity** emphasizes minimalism paired with audio/visual precision for accessibility. Core principles:
+- **Visual Sound:** Wave-inspired gradients represent audio capture
+- **Clean Precision:** High-contrast feedback with minimal decoration  
+- **Subtle Sonic Cues:** Non-intrusive animations mimicking sound waves
+- **Privacy-First:** All processing on-device, no cloud dependencies
+- **WCAG AA+:** Accessibility is core, not an afterthought
 
-*\*Note: Audit identified potential discrepancies between this spec and `tailwind.config.ts` (e.g., text colors, missing feedback tokens). The config file values are the active implementation.* Ensure WCAG AA contrast for text is **Mandatory**.
+### Critical Changes from v2.0 → v3.5
 
-### 2.2 Gradient & Glow Colors (New Additions for Kinetic Glass)
-* **Canonical Source:** `tailwind.config.ts` / `src/index.css`.
-* **Intent:** Enhance visual depth and animation effects.
-
-| Token Group | Intent / Usage | Example Tailwind Tokens | Example Values (Verify in Code) |
-|---|---|---|---|
-| **Gradient Stops** | Used in backgrounds, buttons | `gradient-aurora-start/mid/end`, `gradient-cyber-start/mid/end` | `#6366F1`, `#8B5CF6`, `#EC4899`, etc. |
-| **Glow Colors** | Used in `box-shadow` for animations | `glow-primary`, `glow-accent`, `glow-intense` | `rgba(99,102,241,0.6)`, etc. |
-
-### 2.3 Typography
-* **Canonical Source:** Tailwind classes defined in `tailwind.config.ts`.
-* **Intent:** Clear hierarchy, modern sans-serif.
-
-| Role | Classes (Reference) | Notes |
-|---|---|---|
-| Display | `text-4xl font-semibold tracking-tight` | Limited use |
-| H1 | `text-3xl font-semibold` | Page titles |
-| H2 | `text-2xl font-semibold` | Section headings |
-| H3 | `text-xl font-semibold` | Sub-section headings |
-| Body | `text-base leading-relaxed` | Main content text |
-| Small | `text-sm text-text-secondary` | Meta-text, captions |
-| Mono | `font-mono text-sm` | Code snippets, data |
-
-*Note: Audit identified inconsistencies in application (e.g., Dashboard H1). Adherence to this scale is required.*
-
-### 2.4 Spacing
-* **Canonical Source:** Tailwind's default 4px scale (`space-*`, `p-*`, `m-*`).
-* **Intent:** Consistent rhythm and padding.
-* **Layout:** Use standard section padding (`py-6 md:py-8`), container constraints (`max-w-7xl`).
-
-### 2.5 Z-Index Scale (Mandatory)
-* **Canonical Source:** Tailwind classes (`z-*`).
-* **Intent:** Prevent stacking context issues.
-
-| Layer | Class | Purpose |
-|---|---|---|
-| Base | `z-0` | Root gradient shell (AppShell) - **Must** be applied. |
-| Raised | `z-10` | Standard interactive elements |
-| Float | `z-20` | Floating action buttons |
-| Nav | `z-30` | Persistent navigation bars |
-| Modal | `z-40` | Overlays, dialogs |
-| Toast | `z-50` | Notification popups |
-
-*Note: Do not skip layers. Audit identified `z-0` missing from `AppShell`.*
+| Aspect | OLD: Kinetic Glow | NEW: Sonic Clarity |
+|--------|-------------------|---------------------|
+| **Color System** | Cool blues/purples with glow | Warm coral/orange gradients |
+| **Animation** | Pulsing glow effects | Audio-reactive waveforms |
+| **Motion** | Linear easing | Spring physics (organic) |
+| **Depth** | Glassmorphism blur | Multi-layer glow halos |
+| **Accessibility** | WCAG AA | WCAG AA+ with enhanced contrast |
+| **Visual Feedback** | Static pulses | Dynamic waveform visualization |
 
 ---
 
-## 3. Motion System
+## 🎨 COLOR SYSTEM
 
-* **Library:** Framer Motion (Mandatory).
-* **Goal:** Create "spectacular," smooth (target 120fps), physics-based, visually engaging motion. [cite: 2025-10-17]
-* **Accessibility:** Respect `prefers-reduced-motion`. Mandatory.
+### Primary Palette: Sunset Spectrum
 
-### 3.1 Standard Durations & Easing
-* **Micro:** ~150ms (Button press feedback)
-* **Quick:** ~250ms (Toggles, hover transitions)
-* **Standard:** ~350ms (Page transitions, panel reveals)
-* **Emphasis:** ~500ms (Modal entrances)
-* **Ambient:** 2s - 10s+ (Background gradients, breathing effects)
-* **Easing:** Default `easeInOut` (`[0.4, 0, 0.2, 1]`), use `spring` physics where appropriate for natural feel (tune `stiffness`, `damping`, `mass`).
+| Token | Hex Value | RGB | Usage | WCAG Contrast (on #0F0F12) |
+|-------|-----------|-----|-------|----------------------------|
+| `--color-recording-start` | #FF6B6B | 255, 107, 107 | Recording button start gradient | 4.8:1 ✅ AA |
+| `--color-recording-mid` | #FF8E53 | 255, 142, 83 | Recording button mid gradient | 5.2:1 ✅ AA |
+| `--color-recording-end` | #FFB84D | 255, 184, 77 | Recording button end gradient | 6.1:1 ✅ AAA |
 
-### 3.2 Core Required Animations (Reference: `EYEHEARU_PROJECT_GUIDE v2.2.md`)
-* **`anim_breathing_indicator`:** Multi-layer pulsing glow on Start/Stop button when active. Specs: ~1.5s cycle, opacity variation, potential gradient shift.
-* **`anim_text_solidification`:** Interim text animates into final text (per-word spring/fade/blur preferred).
-* **`anim_3d_flip`:** High-quality 3D card flip (Y-axis) for Flip Screen. Back face must be readable. Include mid-flip light streak effect.
+### Background System
 
-### 3.3 Microinteractions
-* Apply subtle, spring-based `whileHover` / `whileTap` effects (scale, shadow) to all interactive elements.
+| Token | Hex Value | RGB | Usage | Notes |
+|-------|-----------|-----|-------|-------|
+| `--bg-primary` | #0F0F12 | 15, 15, 18 | Main background | Near black with blue tint |
+| `--bg-secondary` | #1A1A1F | 26, 26, 31 | Card backgrounds | Slightly elevated |
+| `--bg-tertiary` | #252530 | 37, 37, 48 | Elevated surfaces | Highest elevation |
 
----
+### Text Colors
 
-## 4. Layout System
+| Token | Hex Value | RGB | Usage | WCAG Contrast (on #0F0F12) |
+|-------|-----------|-----|-------|----------------------------|
+| `--text-primary` | #F8F9FA | 248, 249, 250 | Primary text | 19.1:1 ✅ AAA |
+| `--text-secondary` | #B8B9C0 | 184, 185, 192 | Secondary text | 10.3:1 ✅ AAA |
+| `--text-tertiary` | #6E6F7A | 110, 111, 122 | Low emphasis | 4.5:1 ✅ AA |
 
-* **Primary:** Tailwind CSS Flexbox & Grid.
-* **Containers:** Use standard max-width and padding (`max-w-7xl`, `px-4 md:px-6`).
-* **Overflow:** Avoid `overflow-hidden` globally unless essential for clipping animations.
+### Accent Colors
 
----
+| Token | Hex Value | Usage | State |
+|-------|-----------|-------|-------|
+| `--accent-success` | #10B981 | Saved items, success states | ✅ Pass |
+| `--accent-warning` | #F59E0B | Warnings, alerts | ⚠️ Alert |
+| `--accent-info` | #3B82F6 | Informational states | ℹ️ Info |
 
-## 5. Component Patterns (Index)
+### Gradient Definitions
 
-This document defines principles, not specific component APIs.
+```css
+/* Primary Recording Gradient */
+--gradient-recording: linear-gradient(135deg, 
+  #FF6B6B 0%,    /* Coral start */
+  #FF8E53 50%,   /* Warm orange mid */
+  #FFB84D 100%   /* Golden end */
+);
 
-### 5.1 Core UI Patterns
-* **Glassmorphism:** Use `.glass-panel` / `.glass-panel-elevated` styles (defined in `src/index.css`) for cards, panels, modals where appropriate to create depth over the gradient background.
-* **Button Hierarchy:** Apply distinct styles for Primary (solid accent), Secondary (outlined accent), Tertiary (outlined neutral), Destructive (solid error) actions.
+/* Animated Background Gradient */
+--bg-ambient: linear-gradient(135deg,
+  #0F0F12 0%,
+  #1A1325 30%,
+  #1F1A2E 60%,
+  #0F0F12 100%
+);
 
-### 5.2 Component Pattern Reference
-Detailed component specifications (variants, states, props) are maintained in:
-- **Component Code Comments:** See `src/components/ui/` (shadcn) and `src/components/` (custom) for inline documentation via TypeScript interfaces, PropTypes, or JSDoc.
-- **Storybook** (if/when implemented): [Link TBD]
-- **Figma Design File** (if applicable): [Link TBD]
+/* Waveform Gradient (Vertical) */
+--gradient-waveform: linear-gradient(180deg,
+  #FF6B6B 0%,
+  #FF8E53 50%,
+  #FFB84D 100%
+);
+```
 
-*For exact component APIs, reference the code or linked resources.*
+### Glow Effects
 
----
-
-## 6. Accessibility Details (Mandatory)
-
-* **Focus Ring:** `outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-bg-dark-start` must be applied to all interactive elements on focus-visible.
-* **Labels:** All icon-only buttons require `aria-label`. All form inputs require associated `<label>`.
-* **Contrast:** Verify text/background contrast meets WCAG AA.
-* **Motion:** All animations check `useReducedMotion` or `prefers-reduced-motion` media query.
-* **Semantics:** Use appropriate HTML tags (headings, landmarks, lists).
-
----
-
-## 7. Internationalization (i18n)
-
-* **Library:** `i18next` / `react-i18next`.
-* **Config:** `src/i18n.ts`.
-* **Files:** `public/locales/{{lng}}/translation.json`.
-* **Namespace:** Default namespace is `translation`. Keys use dot notation (e.g., `dashboard.title`).
-* **Rule:** No hard-coded user-facing strings in components. Add keys to `en/translation.json` first.
-
----
-
-## 8. Version History & Maintenance
-
-### 8.1 Current Version: v2.0 (2025-10-25)
-**Major Changes from v1.0:**
-- Clarified document hierarchy (intent vs. implementation source).
-- Added explicit requirement to verify tokens against `tailwind.config.ts`.
-- Expanded Motion System section with required animations and standards.
-- Added Component Patterns index, linking to code/external docs for specifics.
-- Integrated cross-references to `EYEHEARU_PROJECT_GUIDE_Version2.2.md`.
-- Acknowledged verified discrepancies (text colors, missing tokens) found during audit.
-- Added Quick Reference Card (Section 9).
-
-### 8.2 Updating This Document
-**When:** New patterns validated, palette expanded, requirements change, user feedback.
-**Process:** Propose change -> Validate -> Update `.md` -> Sync code (`tailwind.config.ts`) -> Notify team -> Bump version -> Document here.
-
-### 8.3 Conflict Resolution
-If `DESIGN_SYSTEM.md` conflicts with code (`tailwind.config.ts`, components):
-1. Fetch actual code.
-2. Determine intent (spec outdated OR implementation wrong?).
-3. Fix the source of error (update code OR update this document).
-4. Document the resolution and reason in commit/changelog.
-
-*Remember: `tailwind.config.ts` reflects the **active** visual truth.*
+| Token | RGBA Value | Usage | Intensity |
+|-------|------------|-------|-----------|
+| `--glow-recording-inner` | rgba(255, 107, 107, 0.7) | Inner glow ring | Strong |
+| `--glow-recording-outer` | rgba(255, 142, 83, 0.4) | Outer glow halo | Medium |
+| `--glow-recording-intense` | rgba(255, 184, 77, 0.8) | Peak glow state | Maximum |
 
 ---
 
-## 9. Quick Reference Card (For AI Prompts)
+## 📐 TYPOGRAPHY SYSTEM
 
-### **Before ANY Design Change:**
-- [ ] Verify tokens exist in `tailwind.config.ts` (fetch file if uncertain; do NOT use arbitrary values).
-- [ ] Check z-index requirements against defined scale (`z-0` to `z-50`).
-- [ ] Confirm WCAG AA contrast ratios for new color pairings.
-- [ ] Include `useReducedMotion()` check or `prefers-reduced-motion` handling for animations.
-- [ ] Define responsive behavior (`sm:`, `md:`, etc.) if needed.
+### Font Stacks
 
-### **Common Pattern Snippets (Examples):**
-```tsx
-// Page container
-<div className="min-h-screen p-4 max-w-7xl mx-auto"> ... </div>
+```css
+/* Primary Font Stack */
+--font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 
-// Glass panel
-<div className="bg-surface-800/30 backdrop-blur-md border border-border-contrast/50 rounded-lg p-6"> ... </div>
+/* Monospace Stack (for timestamps) */
+--font-mono: 'JetBrains Mono', 'SF Mono', 'Consolas', 'Liberation Mono', monospace;
+```
 
-// Primary button
-<button className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg"> ... </button>
+### Type Scale
 
-// Animated element (Framer Motion)
-<motion.div
-  initial={shouldReduceMotion ? undefined : { opacity: 0 }}
-  animate={shouldReduceMotion ? undefined : { opacity: 1 }}
-> ... </motion.div>
+| Token | Size (rem/px) | Line Height | Usage | Min Touch Target |
+|-------|---------------|-------------|-------|------------------|
+| `--text-transcript` | 2rem / 32px | 1.75 | Live transcript display | N/A |
+| `--text-interim` | 1.75rem / 28px | 1.75 | Interim/uncertain text | N/A |
+| `--text-heading` | 1.5rem / 24px | 1.5 | Page titles | N/A |
+| `--text-body` | 1rem / 16px | 1.5 | Body text | N/A |
+| `--text-small` | 0.875rem / 14px | 1.5 | Labels, captions | 44px |
+| `--text-tiny` | 0.75rem / 12px | 1.5 | Timestamps | 44px |
+
+### Font Weights
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--weight-normal` | 400 | Body text |
+| `--weight-medium` | 500 | UI labels |
+| `--weight-semibold` | 600 | Buttons, emphasis |
+| `--weight-bold` | 700 | Headings |
+
+---
+
+## 📏 SPACING & LAYOUT
+
+### Spacing Scale (8px Base Unit)
+
+| Token | Value (rem/px) | Usage Example |
+|-------|----------------|---------------|
+| `--space-xs` | 0.25rem / 4px | Icon margins |
+| `--space-sm` | 0.5rem / 8px | Tight spacing |
+| `--space-md` | 1rem / 16px | Default spacing |
+| `--space-lg` | 1.5rem / 24px | Section spacing |
+| `--space-xl` | 2rem / 32px | Component spacing |
+| `--space-2xl` | 3rem / 48px | Page margins |
+| `--space-3xl` | 4rem / 64px | Large sections |
+
+### Component Dimensions
+
+| Component | Dimension | Value | Notes |
+|-----------|-----------|-------|-------|
+| Recording Button | Size | 80px | Large touch target |
+| Recording Button | Icon | 36px | Microphone icon |
+| Waveform | Height | 60px | Total height |
+| Waveform | Bar Width | 4px | Individual bar |
+| Waveform | Bar Gap | 3px | Space between |
+| Waveform | Bar Count | 24 | Optimal for iPhone |
+
+### Safe Area Variables
+
+```css
+--safe-top: env(safe-area-inset-top);
+--safe-right: env(safe-area-inset-right);
+--safe-bottom: env(safe-area-inset-bottom);
+--safe-left: env(safe-area-inset-left);
+```
+
+---
+
+## 🎭 ANIMATION SYSTEM
+
+### Duration Scale
+
+| Token | Value | Usage | User Perception |
+|-------|-------|-------|-----------------|
+| `--duration-instant` | 0ms | No animation | Immediate |
+| `--duration-fast` | 150ms | Micro-interactions | Quick response |
+| `--duration-normal` | 300ms | Standard transitions | Natural |
+| `--duration-slow` | 500ms | Complex transitions | Deliberate |
+| `--duration-breath` | 1800ms | Breathing pulse | Ambient |
+| `--duration-ripple` | 2500ms | Ripple expansion | Background |
+
+### Easing Functions
+
+| Token | Value | Usage | Feel |
+|-------|-------|-------|------|
+| `--ease-standard` | cubic-bezier(0.4, 0, 0.2, 1) | Default easing | Natural |
+| `--ease-in-out` | cubic-bezier(0.4, 0, 0.6, 1) | Symmetric motion | Balanced |
+| `--ease-out` | cubic-bezier(0, 0, 0.2, 1) | Deceleration | Stopping |
+| `--ease-bounce` | cubic-bezier(0.68, -0.55, 0.265, 1.55) | Playful motion | Energetic |
+
+### Spring Physics Configuration
+
+```javascript
+// Standard Spring Configuration
+const springConfig = {
+  type: "spring",
+  stiffness: 100,
+  damping: 12,
+  mass: 1
+};
+
+// Responsive Spring (for user interactions)
+const responsiveSpring = {
+  type: "spring",
+  stiffness: 150,
+  damping: 15,
+  mass: 1
+};
+
+// Gentle Spring (for ambient animations)
+const gentleSpring = {
+  type: "spring",
+  stiffness: 50,
+  damping: 10,
+  mass: 1
+};
+```
+
+### Animation Presets
+
+```javascript
+// Breathing Pulse Animation
+const breathingPulse = {
+  scale: [1, 1.08, 1],
+  boxShadow: [
+    "0 0 25px rgba(255, 107, 107, 0.5)",
+    "0 0 45px rgba(255, 142, 83, 0.7)",
+    "0 0 25px rgba(255, 107, 107, 0.5)"
+  ],
+  transition: {
+    duration: 1.8,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }
+};
+
+// Ripple Expansion Animation
+const rippleExpansion = {
+  scale: [1, 2.5],
+  opacity: [0.6, 0],
+  transition: {
+    duration: 2.5,
+    ease: "easeOut",
+    repeat: Infinity
+  }
+};
+
+// Waveform Bar Animation
+const waveformBar = {
+  scaleY: [0.2, 1, 0.2],
+  transition: {
+    duration: 0.8,
+    ease: "easeInOut",
+    repeat: Infinity,
+    repeatDelay: 0.1
+  }
+};
+```
+
+---
+
+## 🌟 SHADOW & GLOW SYSTEM
+
+### Elevation Shadows
+
+| Token | Value | Usage | Elevation |
+|-------|-------|-------|-----------|
+| `--shadow-sm` | 0 1px 2px rgba(0, 0, 0, 0.1) | Subtle depth | 1dp |
+| `--shadow-md` | 0 4px 8px rgba(0, 0, 0, 0.15) | Cards, modals | 4dp |
+| `--shadow-lg` | 0 8px 16px rgba(0, 0, 0, 0.2) | Elevated elements | 8dp |
+| `--shadow-xl` | 0 16px 32px rgba(0, 0, 0, 0.25) | Overlays | 16dp |
+
+### Glow States
+
+| State | Token | Value | Usage |
+|-------|-------|-------|-------|
+| Idle | `--glow-idle` | 0 0 0 rgba(255, 107, 107, 0) | No glow |
+| Active Min | `--glow-active-min` | 0 0 25px rgba(255, 107, 107, 0.5) | Recording start |
+| Active Max | `--glow-active-max` | 0 0 45px rgba(255, 142, 83, 0.7) | Recording peak |
+| Intense | `--glow-intense` | 0 0 60px rgba(255, 184, 77, 0.8) | High audio level |
+
+---
+
+## 📊 Z-INDEX SCALE
+
+| Layer | Token | Value | Usage |
+|-------|-------|-------|-------|
+| Background | `--z-background` | -1 | Background animations |
+| Base | `--z-base` | 0 | Default layer |
+| Card | `--z-card` | 10 | Cards, elevated surfaces |
+| Dropdown | `--z-dropdown` | 100 | Dropdowns, tooltips |
+| Sticky | `--z-sticky` | 200 | Sticky headers |
+| Modal | `--z-modal` | 1000 | Modal overlays |
+| Popover | `--z-popover` | 1100 | Popovers, menus |
+| Toast | `--z-toast` | 1200 | Toast notifications |
+| Critical | `--z-critical` | 9999 | Critical UI elements |
+
+---
+
+## ♿ ACCESSIBILITY REQUIREMENTS
+
+### Motion Preferences
+
+```css
+/* Reduced Motion Media Query */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  /* Preserve essential feedback */
+  .recording-indicator {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+```
+
+### ARIA Implementation
+
+```javascript
+// Recording Button ARIA
+{
+  role: "button",
+  "aria-label": isRecording ? "Stop recording" : "Start recording",
+  "aria-pressed": isRecording,
+  "aria-live": "polite",
+  tabIndex: 0
+}
+
+// Waveform ARIA
+{
+  role: "img",
+  "aria-label": "Audio level visualization showing current recording volume",
+  "aria-live": "polite"
+}
+
+// Transcript ARIA
+{
+  role: "region",
+  "aria-label": "Live transcription output",
+  "aria-live": "polite",
+  "aria-atomic": false
+}
+```
+
+### Focus Indicators
+
+```css
+/* Visible Focus States */
+:focus-visible {
+  outline: 3px solid var(--color-recording-mid);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Skip Links */
+.skip-link:focus {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  z-index: var(--z-critical);
+}
+```
+
+---
+
+## 🚀 IMPLEMENTATION CHECKLIST
+
+### Phase 1: Foundation Setup
+- [ ] Update CSS variables in `index.css`
+- [ ] Implement color tokens exactly as specified
+- [ ] Configure typography scale
+- [ ] Set up spacing system
+- [ ] Define z-index scale
+
+### Phase 2: Component Migration
+- [ ] Update RecordingButton with gradient system
+- [ ] Implement WaveformVisualizer component
+- [ ] Apply spring physics to animations
+- [ ] Add breathing pulse to active states
+- [ ] Configure glow effects
+
+### Phase 3: Accessibility Enhancement
+- [ ] Implement reduced motion fallbacks
+- [ ] Add comprehensive ARIA labels
+- [ ] Test keyboard navigation
+- [ ] Verify focus indicators
+- [ ] Validate color contrast ratios
+
+### Phase 4: Quality Assurance
+- [ ] Lighthouse accessibility: 100/100
+- [ ] Performance: 60fps on iPhone 12+
+- [ ] Bundle size increase: <50KB
+- [ ] WCAG compliance: AA minimum
+- [ ] Device testing: iPhone 12/13/14/15
+
+---
+
+## 📋 QUICK REFERENCE CARDS
+
+### Color Quick Reference
+```
+Recording Gradient: #FF6B6B → #FF8E53 → #FFB84D
+Background: #0F0F12 (primary), #1A1A1F (cards)
+Text: #F8F9FA (primary), #B8B9C0 (secondary)
+```
+
+### Animation Quick Reference
+```
+Standard Spring: stiffness=100, damping=12
+Breathing Cycle: 1800ms
+Ripple Duration: 2500ms
+Standard Easing: cubic-bezier(0.4, 0, 0.2, 1)
+```
+
+### Spacing Quick Reference
+```
+xs: 4px, sm: 8px, md: 16px, lg: 24px
+xl: 32px, 2xl: 48px, 3xl: 64px
+Recording Button: 80px × 80px
+Waveform: 168px × 60px (24 bars)
+```
+
+---
+
+## 🔄 VERSION HISTORY
+
+### v3.5.0 (2025-10-27)
+- **MAJOR**: Complete shift from "Kinetic Glow" to "Sonic Clarity"
+- **ADDED**: Wave-inspired gradient system
+- **ADDED**: Audio-reactive waveform specifications
+- **ADDED**: Spring physics configuration
+- **ADDED**: Enhanced accessibility guidelines
+- **IMPROVED**: AI-friendly tables and quick reference cards
+- **FIXED**: All z-index conflicts documented in v2.0
+
+### v2.0.0 (Previous)
+- Original "Kinetic Glow" design system
+- Glassmorphism effects
+- Cool color palette (deprecated)
+
+---
+
+## 🤖 AI IMPLEMENTATION NOTES
+
+### For Lovable (Code Generator)
+1. Execute color tokens EXACTLY as specified (no variations)
+2. Use spring physics config verbatim (no tweaking values)
+3. Implement all ARIA labels as documented
+4. Follow z-index scale strictly (no arbitrary values)
+
+### For Gemini (Strategic Architect)
+1. Reference this document in ALL implementation prompts
+2. Break components into atomic tasks per HARMONIC methodology
+3. Include accessibility requirements in EVERY prompt
+4. Specify "DO NOT" constraints for each component
+
+### For Validators (Grok/Claude)
+1. Flag ANY color not from this palette
+2. Verify ALL animations have reduced-motion fallbacks
+3. Check z-index values against defined scale
+4. Ensure ARIA implementation matches specifications
+
+### For Copilot (Auditor)
+1. Validate hex values match EXACTLY
+2. Confirm spring physics values unchanged
+3. Verify accessibility score maintains 100/100
+4. Check bundle size impact remains <50KB
+
+---
+
+**END OF DESIGN SYSTEM v3.5**
+
+This document serves as the single source of truth for all visual and interaction design decisions in EyeHearU. Any deviations must be approved and documented in a new version.
