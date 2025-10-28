@@ -39,6 +39,24 @@ const TranscriptionPage = () => {
   const [isFlipped, setIsFlipped] = useState(false);
   const interimTranscriptRef = useRef('');
   
+  // Scroll interaction state - tracks if user has manually scrolled up
+  const [userHasScrolledUp, setUserHasScrolledUp] = useState(false);
+  const mainContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Tolerance for "at bottom" detection (handles sub-pixel rendering)
+  const SCROLL_THRESHOLD = 10;
+
+  // Handle user scroll - detect if user is at bottom or has scrolled up
+  const handleScroll = () => {
+    const container = mainContainerRef.current;
+    if (container) {
+      // Check if scrolled to bottom (within SCROLL_THRESHOLD tolerance)
+      const isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + SCROLL_THRESHOLD;
+      
+      // Update state: if at bottom, auto-scroll is enabled; if not, user has scrolled up
+      setUserHasScrolledUp(!isAtBottom);
+    }
+  };
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -77,13 +95,13 @@ const TranscriptionPage = () => {
   }, [isRecording]); // Listener now dependent on isRecording state
 
   useEffect(() => {
-    // Auto-scroll to bottom as transcript updates
-    const mainContainer = document.querySelector('main');
-    if (mainContainer && interimTranscript) {
-      // Use instant scroll for reliability with rapid updates
-      mainContainer.scrollTop = mainContainer.scrollHeight;
+    // Auto-scroll ONLY if user hasn't manually scrolled up
+    if (!userHasScrolledUp && mainContainerRef.current && interimTranscript) {
+      const container = mainContainerRef.current;
+      // Use instant scroll for reliable behavior with rapid transcript updates
+      container.scrollTop = container.scrollHeight;
     }
-  }, [interimTranscript]);
+  }, [interimTranscript, userHasScrolledUp]); // Add userHasScrolledUp to dependency array
 
   const toggleRecording = async () => {
     setError(''); // Clear any previous errors
@@ -246,7 +264,11 @@ const TranscriptionPage = () => {
         {/* Front Face */}
         <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col">
           {/* Transcription Display Area */}
-          <main className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto">
+          <main 
+            ref={mainContainerRef} 
+            onScroll={handleScroll} 
+            className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto"
+          >
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
@@ -331,7 +353,11 @@ const TranscriptionPage = () => {
         {/* Back Face */}
         <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col">
           {/* Transcription Display Area */}
-          <main className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto">
+          <main 
+            ref={mainContainerRef} 
+            onScroll={handleScroll} 
+            className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto"
+          >
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
