@@ -38,6 +38,7 @@ const TranscriptionPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en-US');
   const [isFlipped, setIsFlipped] = useState(false);
   const interimTranscriptRef = useRef('');
+  const scrollTargetRef = useRef<HTMLDivElement>(null);
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -74,6 +75,10 @@ const TranscriptionPage = () => {
       }
     };
   }, [isRecording]); // Listener now dependent on isRecording state
+
+  useEffect(() => {
+    scrollTargetRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [interimTranscript]);
 
   const toggleRecording = async () => {
     setError(''); // Clear any previous errors
@@ -254,6 +259,7 @@ const TranscriptionPage = () => {
                 )}
               </AnimatePresence>
             </p>
+            <div ref={scrollTargetRef} />
           </main>
 
           {/* Action Button Area */}
@@ -339,6 +345,7 @@ const TranscriptionPage = () => {
                 )}
               </AnimatePresence>
             </p>
+            <div ref={scrollTargetRef} />
           </main>
 
           {/* Action Button Area */}
