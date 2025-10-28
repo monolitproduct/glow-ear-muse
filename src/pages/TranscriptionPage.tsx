@@ -267,7 +267,7 @@ const TranscriptionPage = () => {
           <main 
             ref={mainContainerRef} 
             onScroll={handleScroll} 
-            className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto"
+            className="flex-grow flex flex-col p-4 overflow-y-auto"
           >
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
@@ -356,7 +356,7 @@ const TranscriptionPage = () => {
           <main 
             ref={mainContainerRef} 
             onScroll={handleScroll} 
-            className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto"
+            className="flex-grow flex flex-col p-4 overflow-y-auto"
           >
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
