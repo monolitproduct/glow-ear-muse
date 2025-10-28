@@ -38,7 +38,7 @@ const TranscriptionPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en-US');
   const [isFlipped, setIsFlipped] = useState(false);
   const interimTranscriptRef = useRef('');
-  const scrollTargetRef = useRef<HTMLDivElement>(null);
+  
 
   const breathingAnimation = {
     scale: [1, 1.05, 1],
@@ -77,7 +77,12 @@ const TranscriptionPage = () => {
   }, [isRecording]); // Listener now dependent on isRecording state
 
   useEffect(() => {
-    scrollTargetRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    // Auto-scroll to bottom as transcript updates
+    const mainContainer = document.querySelector('main');
+    if (mainContainer && interimTranscript) {
+      // Use instant scroll for reliability with rapid updates
+      mainContainer.scrollTop = mainContainer.scrollHeight;
+    }
   }, [interimTranscript]);
 
   const toggleRecording = async () => {
@@ -233,7 +238,7 @@ const TranscriptionPage = () => {
 
       {/* 3D Card Wrapper */}
       <motion.div 
-        className="relative flex flex-col flex-grow overflow-hidden [transform-style:preserve-3d]"
+        className="relative flex flex-col flex-grow [transform-style:preserve-3d]"
         style={{ perspective: '1000px' }}
         animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
         transition={{ type: 'spring', stiffness: 260, damping: 20, duration: shouldReduceMotion ? 0 : undefined }}
@@ -241,7 +246,7 @@ const TranscriptionPage = () => {
         {/* Front Face */}
         <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col">
           {/* Transcription Display Area */}
-          <main className="flex-grow flex items-center justify-center p-4">
+          <main className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto">
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
@@ -259,7 +264,6 @@ const TranscriptionPage = () => {
                 )}
               </AnimatePresence>
             </p>
-            <div ref={scrollTargetRef} />
           </main>
 
           {/* Action Button Area */}
@@ -327,7 +331,7 @@ const TranscriptionPage = () => {
         {/* Back Face */}
         <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col">
           {/* Transcription Display Area */}
-          <main className="flex-grow flex items-center justify-center p-4">
+          <main className="flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto">
             <p className="text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
@@ -345,7 +349,6 @@ const TranscriptionPage = () => {
                 )}
               </AnimatePresence>
             </p>
-            <div ref={scrollTargetRef} />
           </main>
 
           {/* Action Button Area */}
