@@ -267,15 +267,15 @@ const TranscriptionPage = () => {
           <main 
             ref={mainContainerRef} 
             onScroll={handleScroll} 
-            className="flex-grow flex flex-col p-4 overflow-y-auto"
+            className="flex-grow flex h-0 flex-col p-4 overflow-y-auto"
           >
-            <p className="text-3xl text-text-primary text-center leading-relaxed">
+            <p className="text-2xl md:text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
                 {interimTranscript && (
                   <motion.span
-                    key={interimTranscript}
-                    className="text-text-secondary opacity-75 inline-block"
+                    key="interim-text"
+                    className="text-[--text-tertiary] inline-block"
                     initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
                     animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0 }}
@@ -356,15 +356,15 @@ const TranscriptionPage = () => {
           <main 
             ref={mainContainerRef} 
             onScroll={handleScroll} 
-            className="flex-grow flex flex-col p-4 overflow-y-auto"
+            className="flex-grow flex h-0 flex-col p-4 overflow-y-auto"
           >
-            <p className="text-3xl text-text-primary text-center leading-relaxed">
+            <p className="text-2xl md:text-3xl text-text-primary text-center leading-relaxed">
               {finalTranscript}{' '}
               <AnimatePresence mode="wait">
                 {interimTranscript && (
                   <motion.span
-                    key={interimTranscript}
-                    className="text-text-secondary opacity-75 inline-block"
+                    key="interim-text"
+                    className="text-[--text-tertiary] inline-block"
                     initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
                     animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
                     exit={{ opacity: 0 }}
