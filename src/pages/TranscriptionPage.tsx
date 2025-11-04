@@ -187,7 +187,7 @@ const TranscriptionPage = () => {
             {interimTranscript && (
               <motion.span
                 key="interim-text"
-                className="text-[--text-tertiary] inline-block"
+                className="text-text-primary inline-block"
                 initial={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.4, y: 8, filter: 'blur(2px)' }}
                 animate={shouldReduceMotion ? { opacity: 0.75 } : { opacity: 0.75, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0 }}
