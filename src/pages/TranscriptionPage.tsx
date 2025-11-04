@@ -38,8 +38,7 @@ const TranscriptionPage = () => {
   const interimTranscriptRef = useRef('');
   
   const [userHasScrolledUp, setUserHasScrolledUp] = useState(false);
-  const frontContainerRef = useRef<HTMLDivElement>(null);
-  const backContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const SCROLL_THRESHOLD = 10;
 
@@ -75,12 +74,12 @@ const TranscriptionPage = () => {
 
   useEffect(() => {
     if (!userHasScrolledUp && interimTranscript) {
-      const container = isFlipped ? backContainerRef.current : frontContainerRef.current;
+      const container = scrollContainerRef.current;
       if (container) {
         container.scrollTop = container.scrollHeight;
       }
     }
-  }, [interimTranscript, userHasScrolledUp, isFlipped]);
+  }, [interimTranscript, userHasScrolledUp]);
 
   const toggleRecording = async () => {
     setError('');
@@ -174,14 +173,57 @@ const TranscriptionPage = () => {
     }
   };
 
-  const renderTranscriptionContent = (ref: React.RefObject<HTMLDivElement>) => (
-    <>
+  return (
+    <div className="flex flex-col h-screen text-text-primary p-4">
+      <header className="flex justify-between items-center mb-4 pt-[calc(1rem+var(--safe-top))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
+        <p className="text-sm">
+          {t('transcription.header.userLabel')} <span className="font-semibold">{user?.email}</span>
+        </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsFlipped(prev => !prev)}
+            className="text-sm text-accent-secondary hover:underline"
+            aria-label={isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
+          >
+            {isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
+          </button>
+          {!hasProAccess && (
+            <Link
+              to="/purchase"
+              className="text-sm px-3 py-1 bg-accent-primary text-white font-semibold rounded hover:bg-accent-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
+              aria-label={t('transcription.header.upgradeButton')}
+            >
+              {t('transcription.header.upgradeButton')}
+            </Link>
+          )}
+          <Link
+            to="/dashboard"
+            className="text-sm text-accent-primary hover:underline"
+            aria-label={t('transcription.header.dashboardLink')}
+          >
+            {t('transcription.header.dashboardLink')}
+          </Link>
+          <button
+            onClick={signOut}
+            className="text-sm text-accent-primary hover:underline"
+            aria-label={t('transcription.header.signOutButton')}
+          >
+            {t('transcription.header.signOutButton')}
+          </button>
+        </div>
+      </header>
+
       <main 
-        ref={ref}
+        ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 h-0 overflow-y-auto p-4"
+        className="flex-1 overflow-y-auto p-4"
       >
-        <p className="text-2xl md:text-3xl text-text-primary text-center leading-relaxed">
+        <motion.p
+          className="text-2xl md:text-3xl text-text-primary text-center leading-relaxed"
+          style={{ perspective: '1000px' }}
+          animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20, duration: shouldReduceMotion ? 0 : undefined }}
+        >
           {finalTranscript}{' '}
           <AnimatePresence mode="wait">
             {interimTranscript && (
@@ -197,7 +239,7 @@ const TranscriptionPage = () => {
               </motion.span>
             )}
           </AnimatePresence>
-        </p>
+        </motion.p>
       </main>
 
       <footer className="flex flex-col justify-center items-center pt-4 pb-[calc(1rem+var(--safe-bottom))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
@@ -257,63 +299,6 @@ const TranscriptionPage = () => {
           </motion.button>
         </div>
       </footer>
-    </>
-  );
-
-  return (
-    <div className="flex flex-col h-screen text-text-primary p-4">
-      <header className="flex justify-between items-center mb-4 pt-[calc(1rem+var(--safe-top))] pl-[calc(1rem+var(--safe-left))] pr-[calc(1rem+var(--safe-right))]">
-        <p className="text-sm">
-          {t('transcription.header.userLabel')} <span className="font-semibold">{user?.email}</span>
-        </p>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setIsFlipped(prev => !prev)}
-            className="text-sm text-accent-secondary hover:underline"
-            aria-label={isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
-          >
-            {isFlipped ? t('transcription.header.unflipButton') : t('transcription.header.flipButton')}
-          </button>
-          {!hasProAccess && (
-            <Link
-              to="/purchase"
-              className="text-sm px-3 py-1 bg-accent-primary text-white font-semibold rounded hover:bg-accent-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background"
-              aria-label={t('transcription.header.upgradeButton')}
-            >
-              {t('transcription.header.upgradeButton')}
-            </Link>
-          )}
-          <Link
-            to="/dashboard"
-            className="text-sm text-accent-primary hover:underline"
-            aria-label={t('transcription.header.dashboardLink')}
-          >
-            {t('transcription.header.dashboardLink')}
-          </Link>
-          <button
-            onClick={signOut}
-            className="text-sm text-accent-primary hover:underline"
-            aria-label={t('transcription.header.signOutButton')}
-          >
-            {t('transcription.header.signOutButton')}
-          </button>
-        </div>
-      </header>
-
-      <motion.div 
-        className="relative flex-grow"
-        style={{ perspective: '1000px' }}
-        animate={{ rotateY: isFlipped && !shouldReduceMotion ? 180 : 0 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20, duration: shouldReduceMotion ? 0 : undefined }}
-      >
-        <div className="absolute inset-0 [backface-visibility:hidden] flex flex-col">
-          {renderTranscriptionContent(frontContainerRef)}
-        </div>
-
-        <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col">
-          {renderTranscriptionContent(backContainerRef)}
-        </div>
-      </motion.div>
     </div>
   );
 };
