@@ -179,8 +179,7 @@ const TranscriptionPage = () => {
       <main 
         ref={ref}
         onScroll={handleScroll}
-        className="overflow-y-auto p-4"
-        style={{ height: 'calc(100vh - 180px)' }}
+        className="flex-1 h-0 overflow-y-auto p-4"
       >
         <p className="text-2xl md:text-3xl text-text-primary text-center leading-relaxed">
           {finalTranscript}{' '}

@@ -10,8 +10,8 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: 'always',
     infoPlist: {
-      NSMicrophoneUsageDescription: 'EyeHearU uses the microphone for live speech-to-text transcription to assist users with hearing accessibility.',
-      NSSpeechRecognitionUsageDescription: 'EyeHearU uses speech recognition to convert spoken audio into text on your device.',
+      NSMicrophoneUsageDescription: 'A mikrofonhoz való hozzáférésre van szükség a beszéd valós idejű szöveggé alakításához.',
+      NSSpeechRecognitionUsageDescription: 'A beszédfelismerés engedélyezése szükséges a magyar nyelvű átiratok készítéséhez.',
     },
   },
 };
